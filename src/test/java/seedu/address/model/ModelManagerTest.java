@@ -94,6 +94,11 @@ public class ModelManagerTest {
     }
 
     @Test
+    public void getSortedStudentList_modifyList_throwsUnsupportedOperationException() {
+        assertThrows(UnsupportedOperationException.class, () -> modelManager.getSortedStudentList().remove(0));
+    }
+
+    @Test
     public void equals() {
         Reeve reeve = new ReeveBuilder().withPerson(AMY).withPerson(BOB).build();
         Reeve differentReeve = new Reeve();

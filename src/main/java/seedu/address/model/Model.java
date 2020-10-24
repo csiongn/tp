@@ -1,6 +1,7 @@
 package seedu.address.model;
 
 import java.nio.file.Path;
+import java.util.Comparator;
 import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
@@ -11,7 +12,9 @@ import seedu.address.model.student.Student;
  * The API of the Model component.
  */
 public interface Model {
-    /** {@code Predicate} that always evaluate to true */
+    /**
+     * {@code Predicate} that always evaluate to true
+     */
     Predicate<Student> PREDICATE_SHOW_ALL_PERSONS = unused -> true;
 
     /**
@@ -49,7 +52,9 @@ public interface Model {
      */
     void setReeve(ReadOnlyReeve reeve);
 
-    /** Returns the AddressBook */
+    /**
+     * Returns the AddressBook
+     */
     ReadOnlyReeve getReeve();
 
     /**
@@ -76,12 +81,28 @@ public interface Model {
      */
     void setPerson(Student target, Student editedStudent);
 
-    /** Returns an unmodifiable view of the filtered person list */
+    /**
+     * Returns an unmodifiable view of the filtered person list
+     */
     ObservableList<Student> getFilteredPersonList();
 
     /**
      * Updates the filter of the filtered person list to filter by the given {@code predicate}.
+     *
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredPersonList(Predicate<Student> predicate);
+
+    /**
+     * Returns an unmodifiable view of the sorted person list
+     */
+    ObservableList<Student> getSortedStudentList();
+
+    /**
+     * Updates the comparator of the sort person list to sort by the given {@code comparator}.
+     *
+     * @throws NullPointerException if {@code comparator} is null.
+     */
+    void updateSortedStudentList(Comparator<? super Student> comparator);
+
 }
