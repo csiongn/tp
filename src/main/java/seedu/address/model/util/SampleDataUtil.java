@@ -6,6 +6,11 @@ import java.util.stream.Collectors;
 
 import seedu.address.model.ReadOnlyReeve;
 import seedu.address.model.Reeve;
+import seedu.address.model.notes.Notebook;
+import seedu.address.model.notes.ReadOnlyNotebook;
+import seedu.address.model.notes.note.Description;
+import seedu.address.model.notes.note.Note;
+import seedu.address.model.notes.note.Title;
 import seedu.address.model.student.Name;
 import seedu.address.model.student.Phone;
 import seedu.address.model.student.School;
@@ -21,7 +26,6 @@ import seedu.address.model.student.admin.PaymentDate;
 import seedu.address.model.student.question.Question;
 import seedu.address.model.student.question.SolvedQuestion;
 import seedu.address.model.student.question.UnsolvedQuestion;
-
 
 /**
  * Contains utility methods for populating {@code Reeve} with sample data.
@@ -68,12 +72,28 @@ public class SampleDataUtil {
         };
     }
 
+    public static Note[] getSampleNotes() {
+        return new Note[] {
+            new Note(new Title("Finish tp"), new Description("It's week 11!!")),
+            new Note(new Title("Study for finals"), new Description("or die during reading week :(")),
+            new Note(new Title("relax"), new Description("Eat, watch youtube, go USS"))
+        };
+    }
+
     public static ReadOnlyReeve getSampleAddressBook() {
         Reeve sampleAb = new Reeve();
         for (Student sampleStudent : getSamplePersons()) {
             sampleAb.addStudent(sampleStudent);
         }
         return sampleAb;
+    }
+
+    public static ReadOnlyNotebook getSampleNotebook() {
+        Notebook sampleNotebook = new Notebook();
+        for (Note sampleNote : getSampleNotes()) {
+            sampleNotebook.addNote(sampleNote);
+        }
+        return sampleNotebook;
     }
 
     /**

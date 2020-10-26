@@ -9,6 +9,7 @@ import static seedu.address.testutil.TypicalStudents.CARL;
 import static seedu.address.testutil.TypicalStudents.ELLE;
 import static seedu.address.testutil.TypicalStudents.FIONA;
 import static seedu.address.testutil.TypicalStudents.getTypicalAddressBook;
+import static seedu.address.testutil.notes.TypicalNotes.getTypicalNotebook;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,8 +35,8 @@ import seedu.address.testutil.FindStudentDescriptorBuilder;
  * Contains integration tests (interaction with the Model) for {@code FindCommand}.
  */
 public class FindCommandTest {
-    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
-    private Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs(), getTypicalNotebook());
+    private Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs(), getTypicalNotebook());
 
     @Test
     public void equals() {

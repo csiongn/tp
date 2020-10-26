@@ -21,6 +21,8 @@ import seedu.address.model.ReadOnlyReeve;
 import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.Reeve;
 import seedu.address.model.UserPrefs;
+import seedu.address.model.notes.Notebook;
+import seedu.address.model.notes.ReadOnlyNotebook;
 import seedu.address.model.util.SampleDataUtil;
 import seedu.address.storage.JsonReeveStorage;
 import seedu.address.storage.JsonUserPrefsStorage;
@@ -28,6 +30,8 @@ import seedu.address.storage.ReeveStorage;
 import seedu.address.storage.Storage;
 import seedu.address.storage.StorageManager;
 import seedu.address.storage.UserPrefsStorage;
+import seedu.address.storage.notes.JsonNotebookStorage;
+import seedu.address.storage.notes.NotebookStorage;
 import seedu.address.ui.Ui;
 import seedu.address.ui.UiManager;
 
@@ -57,7 +61,8 @@ public class MainApp extends Application {
         UserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(config.getUserPrefsFilePath());
         UserPrefs userPrefs = initPrefs(userPrefsStorage);
         ReeveStorage reeveStorage = new JsonReeveStorage(userPrefs.getAddressBookFilePath());
-        storage = new StorageManager(reeveStorage, userPrefsStorage);
+        NotebookStorage notebookStorage = new JsonNotebookStorage(userPrefs.getNotebookFilePath());
+        storage = new StorageManager(reeveStorage, userPrefsStorage, notebookStorage);
 
         initLogging(config);
 
@@ -69,13 +74,17 @@ public class MainApp extends Application {
     }
 
     /**
-     * Returns a {@code ModelManager} with the data from {@code storage}'s address book and {@code userPrefs}. <br>
+     * Returns a {@code ModelManager} with the data from {@code storage}'s address book and notebook
+     * and {@code userPrefs}<br>
      * The data from the sample address book will be used instead if {@code storage}'s address book is not found,
      * or an empty address book will be used instead if errors occur when reading {@code storage}'s address book.
+     * The same applies to the notebook.
      */
     private Model initModelManager(Storage storage, ReadOnlyUserPrefs userPrefs) {
         Optional<ReadOnlyReeve> addressBookOptional;
+        Optional<ReadOnlyNotebook> notebookOptional;
         ReadOnlyReeve initialData;
+        ReadOnlyNotebook initialNotebook;
         try {
             addressBookOptional = storage.readAddressBook();
             if (!addressBookOptional.isPresent()) {
@@ -90,7 +99,21 @@ public class MainApp extends Application {
             initialData = new Reeve();
         }
 
-        return new ModelManager(initialData, userPrefs);
+        try {
+            notebookOptional = storage.readNotebook();
+            if (!notebookOptional.isPresent()) {
+                logger.info("Data file for notebook not found. Will be starting with a sample Notebook");
+            }
+            initialNotebook = notebookOptional.orElseGet(SampleDataUtil::getSampleNotebook);
+        } catch (DataConversionException e) {
+            logger.warning("Data file not in the correct format. Will be starting with an empty Notebook");
+            initialNotebook = new Notebook();
+        } catch (IOException e) {
+            logger.warning("Problem while reading from the file. Will be starting with an empty Notebook");
+            initialNotebook = new Notebook();
+        }
+
+        return new ModelManager(initialData, userPrefs, initialNotebook);
     }
 
     private void initLogging(Config config) {

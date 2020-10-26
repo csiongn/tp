@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalStudents.getTypicalAddressBook;
+import static seedu.address.testutil.notes.TypicalNotes.getTypicalNotebook;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -19,7 +20,7 @@ import seedu.address.model.UserPrefs;
 
 public class ScheduleCommandTest {
 
-    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs(), getTypicalNotebook());
 
     @Test
     public void equals() {
@@ -48,7 +49,7 @@ public class ScheduleCommandTest {
         LocalDate validDate = LocalDate.of(2020, 11, 3);
         DayOfWeek day = validDate.getDayOfWeek();
 
-        Model expectedModel = new ModelManager(new Reeve(model.getReeve()), new UserPrefs());
+        Model expectedModel = new ModelManager(new Reeve(model.getReeve()), new UserPrefs(), getTypicalNotebook());
         expectedModel.updateFilteredStudentList(std -> std.getAdmin().getClassTime().isSameDay(day));
 
         String expectedMsg = String.format(Messages.MESSAGE_STUDENTS_LISTED_OVERVIEW,

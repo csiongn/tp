@@ -3,6 +3,7 @@ package seedu.address.logic.commands;
 import static seedu.address.commons.core.Messages.MESSAGE_STUDENTS_LISTED_OVERVIEW;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.testutil.TypicalStudents.getTypicalAddressBook;
+import static seedu.address.testutil.notes.TypicalNotes.getTypicalNotebook;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -27,7 +28,7 @@ public class OverdueCommandTest {
         int studentsWhoHaveNotPaid = 1;
         Model model = getDateAdjustedModel(studentsWhoHaveNotPaid);
         String expectedMessage = String.format(MESSAGE_STUDENTS_LISTED_OVERVIEW, studentsWhoHaveNotPaid);
-        Model expectedModel = new ModelManager(model.getReeve(), new UserPrefs());
+        Model expectedModel = new ModelManager(model.getReeve(), new UserPrefs(), getTypicalNotebook());
         expectedModel.updateFilteredStudentList(new OverdueFeePredicate());
         assertCommandSuccess(new OverdueCommand(), model, expectedMessage, expectedModel);
 
@@ -35,7 +36,7 @@ public class OverdueCommandTest {
         studentsWhoHaveNotPaid = 3;
         model = getDateAdjustedModel(studentsWhoHaveNotPaid);
         expectedMessage = String.format(MESSAGE_STUDENTS_LISTED_OVERVIEW, studentsWhoHaveNotPaid);
-        expectedModel = new ModelManager(model.getReeve(), new UserPrefs());
+        expectedModel = new ModelManager(model.getReeve(), new UserPrefs(), getTypicalNotebook());
         expectedModel.updateFilteredStudentList(new OverdueFeePredicate());
         assertCommandSuccess(new OverdueCommand(), model, expectedMessage, expectedModel);
 
@@ -43,7 +44,7 @@ public class OverdueCommandTest {
         studentsWhoHaveNotPaid = 0;
         model = getDateAdjustedModel(studentsWhoHaveNotPaid);
         expectedMessage = String.format(MESSAGE_STUDENTS_LISTED_OVERVIEW, studentsWhoHaveNotPaid);
-        expectedModel = new ModelManager(model.getReeve(), new UserPrefs());
+        expectedModel = new ModelManager(model.getReeve(), new UserPrefs(), getTypicalNotebook());
         expectedModel.updateFilteredStudentList(new OverdueFeePredicate());
         assertCommandSuccess(new OverdueCommand(), model, expectedMessage, expectedModel);
 
@@ -66,7 +67,7 @@ public class OverdueCommandTest {
             Student replacement = new StudentBuilder(toReplace).withPaymentDate(date.format(FORMAT)).build();
             reeve.setStudent(toReplace, replacement);
         }
-        return new ModelManager(reeve, new UserPrefs());
+        return new ModelManager(reeve, new UserPrefs(), getTypicalNotebook());
     }
 
 }

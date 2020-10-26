@@ -15,6 +15,7 @@ import static seedu.address.testutil.StudentBuilder.DEFAULT_SOLUTION;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
 import static seedu.address.testutil.TypicalStudents.getTypicalAddressBook;
+import static seedu.address.testutil.notes.TypicalNotes.getTypicalNotebook;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +34,7 @@ import seedu.address.testutil.StudentBuilder;
 
 public class SolveQuestionCommandTest {
 
-    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs(), getTypicalNotebook());
 
     @Test
     void constructor_null_throwsNullPointerException() {
@@ -72,7 +73,7 @@ public class SolveQuestionCommandTest {
                 expectedStudent.getName(), solved);
 
         SolveQuestionCommand solveCommand = new SolveQuestionCommand(INDEX_FIRST_PERSON, question, DEFAULT_SOLUTION);
-        ModelManager expectedModel = new ModelManager(model.getReeve(), new UserPrefs());
+        ModelManager expectedModel = new ModelManager(model.getReeve(), new UserPrefs(), model.getNotebook());
         expectedModel.setStudent(clone, expectedStudent);
 
         assertCommandSuccess(solveCommand, model, expectedMessage, expectedModel);
@@ -101,7 +102,7 @@ public class SolveQuestionCommandTest {
                 expectedStudent.getName(), solved);
 
         SolveQuestionCommand solveCommand = new SolveQuestionCommand(INDEX_FIRST_PERSON, question, DEFAULT_SOLUTION);
-        ModelManager expectedModel = new ModelManager(model.getReeve(), new UserPrefs());
+        ModelManager expectedModel = new ModelManager(model.getReeve(), new UserPrefs(), model.getNotebook());
         expectedModel.setStudent(clone, expectedStudent);
 
         assertCommandSuccess(solveCommand, model, expectedMessage, expectedModel);

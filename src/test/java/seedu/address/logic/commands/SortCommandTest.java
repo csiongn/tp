@@ -13,6 +13,7 @@ import static seedu.address.testutil.TypicalStudents.ELLE;
 import static seedu.address.testutil.TypicalStudents.FIONA;
 import static seedu.address.testutil.TypicalStudents.GEORGE;
 import static seedu.address.testutil.TypicalStudents.getTypicalAddressBook;
+import static seedu.address.testutil.notes.TypicalNotes.getTypicalNotebook;
 
 import java.util.Arrays;
 
@@ -29,7 +30,7 @@ import seedu.address.model.student.admin.ClassTimeComparator;
  * Contains integration tests (interaction with the Model) for {@code SortCommand}.
  */
 public class SortCommandTest {
-    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs(), getTypicalNotebook());
 
     private SortCommand sortByName = new SortCommand("name");
     private SortCommand sortByNameDuplicate = new SortCommand("name");
@@ -50,7 +51,7 @@ public class SortCommandTest {
 
     @Test
     public void execute_sortByName_sorted() {
-        Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+        Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs(), getTypicalNotebook());
         expectedModel.updateSortedStudentList(new NameComparator());
         String expectedMessage = String.format(MESSAGE_STUDENTS_SORTED, "name");
 
@@ -61,7 +62,7 @@ public class SortCommandTest {
 
     @Test
     public void execute_sortByClassTime_sorted() {
-        Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+        Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs(), getTypicalNotebook());
         expectedModel.updateSortedStudentList(new ClassTimeComparator());
         String expectedMessage = String.format(MESSAGE_STUDENTS_SORTED, "classTime");
 
@@ -72,7 +73,7 @@ public class SortCommandTest {
 
     @Test
     public void execute_sortByYear_sorted() {
-        Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+        Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs(), getTypicalNotebook());
         expectedModel.updateSortedStudentList(new YearComparator());
         String expectedMessage = String.format(MESSAGE_STUDENTS_SORTED, "year");
 

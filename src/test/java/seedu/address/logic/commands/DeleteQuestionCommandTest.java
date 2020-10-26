@@ -14,6 +14,7 @@ import static seedu.address.testutil.StudentBuilder.DEFAULT_SOLUTION;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
 import static seedu.address.testutil.TypicalStudents.getTypicalAddressBook;
+import static seedu.address.testutil.notes.TypicalNotes.getTypicalNotebook;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +31,7 @@ import seedu.address.testutil.StudentBuilder;
 
 public class DeleteQuestionCommandTest {
 
-    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs(), getTypicalNotebook());
 
     @Test
     public void constructor_null_throwsNullPointerException() {
@@ -54,7 +55,7 @@ public class DeleteQuestionCommandTest {
         Question removed = clone.getQuestions().get(questionIndex.getZeroBased());
 
         Student expected = deleteQuestion(questionIndex, clone);
-        Model expectedModel = new ModelManager(model.getReeve(), new UserPrefs());
+        Model expectedModel = new ModelManager(model.getReeve(), new UserPrefs(), getTypicalNotebook());
         expectedModel.setStudent(clone, expected);
 
         DeleteQuestionCommand command = new DeleteQuestionCommand(INDEX_FIRST_PERSON, questionIndex);
@@ -72,7 +73,7 @@ public class DeleteQuestionCommandTest {
         Question removed = clone.getQuestions().get(questionIndex.getZeroBased());
 
         Student expected = deleteQuestion(questionIndex, clone);
-        Model expectedModel = new ModelManager(model.getReeve(), new UserPrefs());
+        Model expectedModel = new ModelManager(model.getReeve(), new UserPrefs(), getTypicalNotebook());
         expectedModel.setStudent(clone, expected);
 
         DeleteQuestionCommand command = new DeleteQuestionCommand(INDEX_FIRST_PERSON, questionIndex);
@@ -91,7 +92,7 @@ public class DeleteQuestionCommandTest {
         Question removed = clone.getQuestions().get(questionIndex.getZeroBased());
 
         Student expected = deleteQuestion(questionIndex, clone);
-        Model expectedModel = new ModelManager(model.getReeve(), new UserPrefs());
+        Model expectedModel = new ModelManager(model.getReeve(), new UserPrefs(), getTypicalNotebook());
         expectedModel.setStudent(clone, expected);
 
         DeleteQuestionCommand command = new DeleteQuestionCommand(INDEX_FIRST_PERSON, questionIndex);

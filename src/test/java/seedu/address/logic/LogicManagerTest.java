@@ -35,6 +35,7 @@ import seedu.address.model.student.Student;
 import seedu.address.storage.JsonReeveStorage;
 import seedu.address.storage.JsonUserPrefsStorage;
 import seedu.address.storage.StorageManager;
+import seedu.address.storage.notes.JsonNotebookStorage;
 import seedu.address.testutil.StudentBuilder;
 
 public class LogicManagerTest {
@@ -51,7 +52,8 @@ public class LogicManagerTest {
         JsonReeveStorage addressBookStorage =
                 new JsonReeveStorage(temporaryFolder.resolve("addressBook.json"));
         JsonUserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(temporaryFolder.resolve("userPrefs.json"));
-        StorageManager storage = new StorageManager(addressBookStorage, userPrefsStorage);
+        JsonNotebookStorage notebookStorage = new JsonNotebookStorage(temporaryFolder.resolve("notebook.json"));
+        StorageManager storage = new StorageManager(addressBookStorage, userPrefsStorage, notebookStorage);
         logic = new LogicManager(model, storage);
     }
 
@@ -80,7 +82,9 @@ public class LogicManagerTest {
                 new JsonReeveIoExceptionThrowingStub(temporaryFolder.resolve("ioExceptionAddressBook.json"));
         JsonUserPrefsStorage userPrefsStorage =
                 new JsonUserPrefsStorage(temporaryFolder.resolve("ioExceptionUserPrefs.json"));
-        StorageManager storage = new StorageManager(addressBookStorage, userPrefsStorage);
+        JsonNotebookStorage notebookStorage =
+                new JsonNotebookStorage(temporaryFolder.resolve("notebook.json"));
+        StorageManager storage = new StorageManager(addressBookStorage, userPrefsStorage, notebookStorage);
         logic = new LogicManager(model, storage);
 
         // Execute add command
@@ -140,7 +144,7 @@ public class LogicManagerTest {
      */
     private void assertCommandFailure(String inputCommand, Class<? extends Throwable> expectedException,
             String expectedMessage) {
-        Model expectedModel = new ModelManager(model.getReeve(), new UserPrefs());
+        Model expectedModel = new ModelManager(model.getReeve(), new UserPrefs(), model.getNotebook());
         assertCommandFailure(inputCommand, expectedException, expectedMessage, expectedModel);
     }
 

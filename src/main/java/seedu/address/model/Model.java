@@ -6,6 +6,8 @@ import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
+import seedu.address.model.notes.ReadOnlyNotebook;
+import seedu.address.model.notes.note.Note;
 import seedu.address.model.student.NameComparator;
 import seedu.address.model.student.Student;
 
@@ -107,5 +109,39 @@ public interface Model {
      * Sorts the internal list in reeve by the given {@code comparator}
      */
     void updateSortedStudentList(Comparator<? super Student> cmp);
+
+    /**
+     * Replaces notebook data with the data in {@code notebook}.
+     */
+    void setNotebook(ReadOnlyNotebook notebook);
+
+    /**
+     * Returns the Notebook
+     */
+    ReadOnlyNotebook getNotebook();
+
+    /**
+     * Returns true if a note with the same title as {@code note} exists in the notebook.
+     */
+    boolean hasNote(Note note);
+
+    /**
+     * Deletes the given note.
+     * The note must exist in the notebook.
+     */
+    void deleteNote(Note target);
+
+    /**
+     * Adds the given note.
+     * {@code note} must not already exist in the notebook.
+     */
+    void addNote(Note note);
+
+    /**
+     * Replaces the given note {@code target} with {@code editedNote}.
+     * {@code target} must exist in the notebook.
+     * The person identity of {@code editedNote} must not be the same as another existing person in the notebook.
+     */
+    void setNote(Note target, Note editedNote);
 
 }

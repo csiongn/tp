@@ -14,6 +14,7 @@ import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
 import static seedu.address.testutil.TypicalStudents.ALICE;
 import static seedu.address.testutil.TypicalStudents.BENSON;
 import static seedu.address.testutil.TypicalStudents.getTypicalAddressBook;
+import static seedu.address.testutil.notes.TypicalNotes.getTypicalNotebook;
 
 import org.junit.jupiter.api.Test;
 
@@ -29,7 +30,7 @@ public class AddQuestionCommandTest {
 
     private static final String TEST_QUESTION = "What is 1 + 1?";
 
-    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs(), getTypicalNotebook());
 
     @Test
     public void constructor_null_throwsNullPointerException() {
@@ -56,7 +57,7 @@ public class AddQuestionCommandTest {
         String expectedMessage = String.format(AddQuestionCommand.MESSAGE_SUCCESS,
                 clone.getName(), question);
 
-        ModelManager expectedModel = new ModelManager(model.getReeve(), new UserPrefs());
+        ModelManager expectedModel = new ModelManager(model.getReeve(), new UserPrefs(), getTypicalNotebook());
         expectedModel.setStudent(clone, expectedStudent);
 
         assertCommandSuccess(addQuestionCommand, model, expectedMessage, expectedModel);
@@ -108,7 +109,7 @@ public class AddQuestionCommandTest {
         String expectedMessage = String.format(AddQuestionCommand.MESSAGE_SUCCESS,
                 expectedStudent.getName(), question);
 
-        ModelManager expectedModel = new ModelManager(model.getReeve(), new UserPrefs());
+        ModelManager expectedModel = new ModelManager(model.getReeve(), new UserPrefs(), getTypicalNotebook());
         expectedModel.setStudent(clone, expectedStudent);
 
         assertCommandSuccess(addQuestionCommand, model, expectedMessage, expectedModel);

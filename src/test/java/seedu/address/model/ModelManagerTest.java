@@ -7,6 +7,7 @@ import static seedu.address.model.Model.PREDICATE_SHOW_ALL_STUDENTS;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalStudents.AMY;
 import static seedu.address.testutil.TypicalStudents.BOB;
+import static seedu.address.testutil.notes.TypicalNotes.NOTE_EXISTENTIAL_CRISIS;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -15,8 +16,10 @@ import java.util.Arrays;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.GuiSettings;
+import seedu.address.model.notes.Notebook;
 import seedu.address.model.student.NameContainsKeywordsPredicate;
 import seedu.address.testutil.ReeveBuilder;
+import seedu.address.testutil.notes.NotebookBuilder;
 
 public class ModelManagerTest {
 
@@ -97,11 +100,13 @@ public class ModelManagerTest {
     public void equals() {
         Reeve reeve = new ReeveBuilder().withPerson(AMY).withPerson(BOB).build();
         Reeve differentReeve = new Reeve();
+        Notebook notebook = new NotebookBuilder().withNote(NOTE_EXISTENTIAL_CRISIS).build();
+        Notebook differentNotebook = new Notebook();
         UserPrefs userPrefs = new UserPrefs();
 
         // same values -> returns true
-        modelManager = new ModelManager(reeve, userPrefs);
-        ModelManager modelManagerCopy = new ModelManager(reeve, userPrefs);
+        modelManager = new ModelManager(reeve, userPrefs, notebook);
+        ModelManager modelManagerCopy = new ModelManager(reeve, userPrefs, notebook);
         assertTrue(modelManager.equals(modelManagerCopy));
 
         // same object -> returns true
@@ -113,13 +118,16 @@ public class ModelManagerTest {
         // different types -> returns false
         assertFalse(modelManager.equals(5));
 
-        // different addressBook -> returns false
-        assertFalse(modelManager.equals(new ModelManager(differentReeve, userPrefs)));
+        // different reeve -> returns false
+        assertFalse(modelManager.equals(new ModelManager(differentReeve, userPrefs, notebook)));
+
+        // different notebook -> returns false
+        assertFalse(modelManager.equals(new ModelManager(reeve, userPrefs, differentNotebook)));
 
         // different filteredList -> returns false
         String[] keywords = AMY.getName().fullName.split("\\s+");
         modelManager.updateFilteredStudentList(new NameContainsKeywordsPredicate(Arrays.asList(keywords)));
-        assertFalse(modelManager.equals(new ModelManager(reeve, userPrefs)));
+        assertFalse(modelManager.equals(new ModelManager(reeve, userPrefs, notebook)));
 
         // resets modelManager to initial state for upcoming tests
         modelManager.updateFilteredStudentList(PREDICATE_SHOW_ALL_STUDENTS);
@@ -127,6 +135,6 @@ public class ModelManagerTest {
         // different userPrefs -> returns false
         UserPrefs differentUserPrefs = new UserPrefs();
         differentUserPrefs.setAddressBookFilePath(Paths.get("differentFilePath"));
-        assertFalse(modelManager.equals(new ModelManager(reeve, differentUserPrefs)));
+        assertFalse(modelManager.equals(new ModelManager(reeve, differentUserPrefs, notebook)));
     }
 }

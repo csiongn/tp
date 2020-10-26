@@ -14,6 +14,7 @@ import seedu.address.commons.core.GuiSettings;
 import seedu.address.model.ReadOnlyReeve;
 import seedu.address.model.Reeve;
 import seedu.address.model.UserPrefs;
+import seedu.address.storage.notes.JsonNotebookStorage;
 
 public class StorageManagerTest {
 
@@ -26,7 +27,9 @@ public class StorageManagerTest {
     public void setUp() {
         JsonReeveStorage addressBookStorage = new JsonReeveStorage(getTempFilePath("ab"));
         JsonUserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(getTempFilePath("prefs"));
-        storageManager = new StorageManager(addressBookStorage, userPrefsStorage);
+        JsonNotebookStorage notebookStorage = new JsonNotebookStorage(getTempFilePath("notebook"));
+
+        storageManager = new StorageManager(addressBookStorage, userPrefsStorage, notebookStorage);
     }
 
     private Path getTempFilePath(String fileName) {

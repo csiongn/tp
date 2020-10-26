@@ -21,6 +21,8 @@ import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyReeve;
 import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.Reeve;
+import seedu.address.model.notes.ReadOnlyNotebook;
+import seedu.address.model.notes.note.Note;
 import seedu.address.model.student.Student;
 import seedu.address.testutil.StudentBuilder;
 
@@ -156,6 +158,36 @@ public class AddCommandTest {
 
         @Override
         public void updateSortedStudentList(Comparator<? super Student> predicate) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void setNotebook(ReadOnlyNotebook notebook) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public ReadOnlyNotebook getNotebook() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public boolean hasNote(Note note) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void deleteNote(Note target) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void addNote(Note note) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void setNote(Note target, Note editedNote) {
             throw new AssertionError("This method should not be called.");
         }
     }

@@ -10,6 +10,8 @@ import seedu.address.commons.exceptions.DataConversionException;
 import seedu.address.model.ReadOnlyReeve;
 import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.UserPrefs;
+import seedu.address.model.notes.ReadOnlyNotebook;
+import seedu.address.storage.notes.NotebookStorage;
 
 /**
  * Manages storage of AddressBook data in local storage.
@@ -18,14 +20,17 @@ public class StorageManager implements Storage {
 
     private static final Logger logger = LogsCenter.getLogger(StorageManager.class);
     private ReeveStorage reeveStorage;
+    private NotebookStorage notebookStorage;
     private UserPrefsStorage userPrefsStorage;
 
     /**
      * Creates a {@code StorageManager} with the given {@code AddressBookStorage} and {@code UserPrefStorage}.
      */
-    public StorageManager(ReeveStorage reeveStorage, UserPrefsStorage userPrefsStorage) {
+    public StorageManager(ReeveStorage reeveStorage, UserPrefsStorage userPrefsStorage,
+                          NotebookStorage notebookStorage) {
         super();
         this.reeveStorage = reeveStorage;
+        this.notebookStorage = notebookStorage;
         this.userPrefsStorage = userPrefsStorage;
     }
 
@@ -74,6 +79,35 @@ public class StorageManager implements Storage {
     public void saveAddressBook(ReadOnlyReeve addressBook, Path filePath) throws IOException {
         logger.fine("Attempting to write to data file: " + filePath);
         reeveStorage.saveAddressBook(addressBook, filePath);
+    }
+
+    // ================ Notebook methods ==============================
+
+    @Override
+    public Path getNotebookFilePath() {
+        return notebookStorage.getNotebookFilePath();
+    }
+
+    @Override
+    public Optional<ReadOnlyNotebook> readNotebook() throws DataConversionException, IOException {
+        return readNotebook(notebookStorage.getNotebookFilePath());
+    }
+
+    @Override
+    public Optional<ReadOnlyNotebook> readNotebook(Path filePath) throws DataConversionException, IOException {
+        logger.fine("Attempting to read data from notebook file: " + filePath);
+        return notebookStorage.readNotebook(filePath);
+    }
+
+    @Override
+    public void saveNotebook(ReadOnlyNotebook notebook) throws IOException {
+        saveNotebook(notebook, notebookStorage.getNotebookFilePath());
+    }
+
+    @Override
+    public void saveNotebook(ReadOnlyNotebook notebook, Path filePath) throws IOException {
+        logger.fine("Attempting to write to notebook data file: " + filePath);
+        notebookStorage.saveNotebook(notebook, filePath);
     }
 
 }
