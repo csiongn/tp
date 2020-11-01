@@ -3,7 +3,6 @@ package seedu.address.logic.commands;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_INDEX;
-import static seedu.address.model.Model.PREDICATE_SHOW_ALL_STUDENTS;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,7 +77,6 @@ public class DeleteDetailCommand extends DetailCommand {
         Student updatedStudent = super.updateStudentDetail(studentToAddDetail, details);
 
         model.setStudent(studentToAddDetail, updatedStudent);
-        model.updateFilteredStudentList(PREDICATE_SHOW_ALL_STUDENTS);
         logger.log(Level.INFO, "Execution complete");
         return new CommandResult(String.format(MESSAGE_SUCCESS, updatedStudent.getName(), removedDetail));
     }
