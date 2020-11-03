@@ -7,8 +7,6 @@ import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.notes.note.Description;
 import seedu.address.model.notes.note.Note;
 import seedu.address.model.notes.note.Title;
-import seedu.address.model.student.Name;
-import seedu.address.model.student.Phone;
 import seedu.address.model.student.Student;
 
 /**
@@ -49,7 +47,7 @@ class JsonAdaptedNote {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Title.class.getSimpleName()));
         }
         if (!Title.isValidTitle(title)) {
-            throw new IllegalValueException(Name.MESSAGE_CONSTRAINTS);
+            throw new IllegalValueException(Title.MESSAGE_CONSTRAINTS);
         }
         final Title modelTitle = new Title(title);
 
@@ -58,7 +56,7 @@ class JsonAdaptedNote {
                     Description.class.getSimpleName()));
         }
         if (!Description.isValidDescription(description)) {
-            throw new IllegalValueException(Phone.MESSAGE_CONSTRAINTS);
+            throw new IllegalValueException(Description.MESSAGE_CONSTRAINTS);
         }
         final Description modelDescription = new Description(description);
 

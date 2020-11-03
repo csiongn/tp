@@ -20,7 +20,23 @@
       "status" : false,
       "question" : "How do you inverse a matrix?",
       "solution" : ""
-    } ]
+    }],
+    "academic" : {
+      "attendanceList" : [ {
+        "date" : "14/04/1998",
+        "attendanceStatus" : "present",
+        "feedback" : "sleepy during lesson"
+      }],
+      "exams" : [ {
+        "examName" : "End of Year Examination 2020",
+        "examDate" : "7/11/2020",
+        "score" : "50/100"
+      }, {
+        "examName" : "Mid Year Examination 2020",
+        "examDate" : "25/7/2020",
+        "score" : "20/30"
+      }]
+    }
   }, {
     "name" : "Benson Meier",
     "phone" : "98765432",
@@ -41,7 +57,23 @@
       "status" : false,
       "question" : "How do you inverse a matrix?",
       "solution" : ""
-    } ]
+    }],
+    "academic" : {
+      "attendanceList" : [ {
+        "date" : "14/04/1998",
+        "attendanceStatus" : "present",
+        "feedback" : "sleepy during lesson"
+      }],
+      "exams" : [ {
+        "examName" : "CA2",
+        "examDate" : "19/9/2020",
+        "score" : "73/100"
+      }, {
+        "examName" : "CA1",
+        "examDate" : "2/3/2020",
+        "score" : "21/40"
+      }]
+    }
   }, {
     "name" : "Carl Kurz",
     "phone" : "95352563",
@@ -62,7 +94,23 @@
       "status" : false,
       "question" : "How do you inverse a matrix?",
       "solution" : ""
-    } ]
+    } ],
+    "academic" : {
+      "attendanceList" : [ {
+        "date" : "14/04/1998",
+        "attendanceStatus" : "present",
+        "feedback" : "sleepy during lesson"
+      }],
+      "exams" : [ {
+        "examName" : "End of Year Examination 2020",
+        "examDate" : "7/11/2020",
+        "score" : "50/100"
+      }, {
+        "examName" : "Mid Year Examination 2020",
+        "examDate" : "25/7/2020",
+        "score" : "20/30"
+      }]
+    }
   }, {
     "name" : "Daniel Meier",
     "phone" : "87652533",
@@ -83,7 +131,23 @@
       "status" : false,
       "question" : "How do you inverse a matrix?",
       "solution" : ""
-    } ]
+    } ],
+    "academic" : {
+      "attendanceList" : [ {
+        "date" : "14/04/1998",
+        "attendanceStatus" : "present",
+        "feedback" : "sleepy during lesson"
+      }],
+      "exams" : [ {
+        "examName" : "End of Year Examination 2020",
+        "examDate" : "7/11/2020",
+        "score" : "50/100"
+      }, {
+        "examName" : "Mid Year Examination 2020",
+        "examDate" : "25/7/2020",
+        "score" : "20/30"
+      }]
+    }
   }, {
     "name" : "Elle Meyer",
     "phone" : "9482224",
@@ -104,7 +168,23 @@
       "status" : true,
       "question" : "How do you inverse a matrix?",
       "solution" : "Read your textbook"
-    } ]
+    } ],
+    "academic" : {
+      "attendanceList" : [ {
+        "date" : "14/04/1998",
+        "attendanceStatus" : "present",
+        "feedback" : "sleepy during lesson"
+      }],
+      "exams" : [ {
+        "examName" : "End of Year Examination 2020",
+        "examDate" : "7/11/2020",
+        "score" : "50/100"
+      }, {
+        "examName" : "Mid Year Examination 2020",
+        "examDate" : "25/7/2020",
+        "score" : "20/30"
+      }]
+    }
   }, {
     "name" : "Fiona Kunz",
     "phone" : "9482427",
@@ -125,15 +205,30 @@
       "status" : false,
       "question" : "How do you inverse a matrix?",
       "solution" : ""
-    } ]
-  }, {
+    } ],
+    "academic" : {
+      "attendanceList" : [ {
+        "date" : "14/04/1998",
+        "attendanceStatus" : "present",
+        "feedback" : "sleepy during lesson"
+      }],
+      "exams" : [ {
+        "examName" : "End of Year Examination 2020",
+        "examDate" : "7/11/2020",
+        "score" : "50/100"
+      }, {
+        "examName" : "Mid Year Examination 2020",
+        "examDate" : "25/7/2020",
+        "score" : "20/30"
+      }]
+    }}, {
     "name" : "George Best",
     "phone" : "9482442",
     "school": "Montford Secondary",
     "year": "Secondary 4",
     "admin" : {
       "classVenue": "311, Clementi Ave 2, #02-25",
-      "classTime": "2 1000-1230",
+      "classTime": "2 1000-1130",
       "fee": "21.00",
       "paymentDate": "21/05/2020",
       "additionalDetails": [ "owesMoney", "friends" ]
@@ -146,6 +241,22 @@
       "status" : false,
       "question" : "How do you inverse a matrix?",
       "solution" : ""
-    } ]
+    } ],
+    "academic" : {
+      "attendanceList" : [ {
+        "date" : "14/04/1998",
+        "attendanceStatus" : "present",
+        "feedback" : "sleepy during lesson"
+      }],
+      "exams" : [ {
+        "examName" : "End of Year Examination 2020",
+        "examDate" : "7/11/2020",
+        "score" : "50/100"
+      }, {
+        "examName" : "Mid Year Examination 2020",
+        "examDate" : "25/7/2020",
+        "score" : "20/30"
+      }]
+    }
   } ]
 }

@@ -9,7 +9,7 @@ import seedu.address.model.notes.note.Title;
  */
 public class NoteBuilder {
 
-    public static final String DEFAULT_TITLE = "What is the meaning of life";
+    public static final String DEFAULT_TITLE = "meaning of life";
     public static final String DEFAULT_DESCRIPTION = "Eat sleep code? :'(";
 
     // Identity fields

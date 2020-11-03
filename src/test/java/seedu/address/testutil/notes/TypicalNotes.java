@@ -19,6 +19,12 @@ public class TypicalNotes {
     public static final Note NOTE_BUY_COFFEE = new NoteBuilder().withTitle("JY!!!")
             .withDescription("Cafeine is good...").build();
 
+    // manually added
+    public static final Note NOTE_TODO = new NoteBuilder().withTitle("TODO")
+            .withDescription("TP").build();
+    public static final Note NOTE_EVENTS = new NoteBuilder().withTitle("Events")
+            .withDescription("presentation...").build();
+
     private TypicalNotes() {} // prevents instantiation
 
     /**

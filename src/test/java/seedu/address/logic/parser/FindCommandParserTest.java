@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.model.student.NameContainsKeywordsPredicate;
 import seedu.address.model.student.SchoolContainsKeywordsPredicate;
-import seedu.address.model.student.SchoolType;
 import seedu.address.model.student.Year;
 import seedu.address.model.student.YearMatchPredicate;
 import seedu.address.testutil.FindStudentDescriptorBuilder;
@@ -46,7 +45,7 @@ public class FindCommandParserTest {
         NameContainsKeywordsPredicate namePredicate = new NameContainsKeywordsPredicate(Arrays.asList("Alice", "Bob"));
         SchoolContainsKeywordsPredicate schoolPredicate =
                 new SchoolContainsKeywordsPredicate(Arrays.asList("Changi", "Sec"));
-        YearMatchPredicate yearPredicate = new YearMatchPredicate(new Year(SchoolType.SECONDARY, 3));
+        YearMatchPredicate yearPredicate = new YearMatchPredicate(new Year("Sec 3"));
 
         FindCommand.FindStudentDescriptor descriptor = new FindStudentDescriptorBuilder()
                 .withNamePredicate(namePredicate)

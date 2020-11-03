@@ -1,13 +1,18 @@
 package seedu.address.model;
 
 import java.nio.file.Path;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
+import jfxtras.icalendarfx.components.VEvent;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.model.notes.ReadOnlyNotebook;
 import seedu.address.model.notes.note.Note;
+import seedu.address.model.schedule.ReadOnlyEvent;
+import seedu.address.model.schedule.ScheduleViewMode;
 import seedu.address.model.student.NameComparator;
 import seedu.address.model.student.Student;
 
@@ -93,11 +98,39 @@ public interface Model {
     /** Returns an unmodifiable view of the filtered person list */
     ObservableList<Student> getFilteredStudentList();
 
+
+    // =========== schedule ================================================================================
+
     /**
-     * Updates the filter of the filtered person list to filter by the given {@code predicate}.
-     *
-     * @throws NullPointerException if {@code predicate} is null.
+     * Returns the current schedule.
      */
+    ReadOnlyEvent getSchedule();
+
+    /**
+     * Gets the current schedule viewing date time.
+     */
+    LocalDateTime getScheduleViewDateTime();
+
+    /**
+     * Set the viewing date time of the schedule.
+     */
+    void setScheduleViewDate(LocalDate targetDate);
+
+    /**
+     * Returns the current schedule view mode
+     */
+    ScheduleViewMode getScheduleViewMode();
+
+    /**
+     * Sets the schedule view mode to either week view or day view.
+     */
+    void setScheduleViewMode(ScheduleViewMode viewMode);
+
+    /**
+     * Returns the VEvent list used for jfxtras iCalendar.
+     */
+    ObservableList<VEvent> getVEventList();
+
     void updateFilteredStudentList(Predicate<Student> predicate);
 
     /**
@@ -109,6 +142,12 @@ public interface Model {
      * Sorts the internal list in reeve by the given {@code comparator}
      */
     void updateSortedStudentList(Comparator<? super Student> cmp);
+
+    void updateClassTimesToEvent();
+
+    ObservableList<VEvent> getLessonEventsList();
+
+    boolean isClashingClassTime(Student toCheck);
 
     /**
      * Replaces notebook data with the data in {@code notebook}.

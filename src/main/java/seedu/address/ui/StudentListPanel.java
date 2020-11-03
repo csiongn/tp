@@ -16,6 +16,7 @@ import seedu.address.model.student.Student;
 public class StudentListPanel extends UiPart<Region> {
     private static final String FXML = "StudentListPanel.fxml";
     private final Logger logger = LogsCenter.getLogger(StudentListPanel.class);
+    private boolean state;
 
     @FXML
     private ListView<Student> personListView;
@@ -27,6 +28,15 @@ public class StudentListPanel extends UiPart<Region> {
         super(FXML);
         personListView.setItems(studentList);
         personListView.setCellFactory(listView -> new StudentListViewCell());
+        state = true;
+    }
+
+    /**
+     * Toggles between StudentAdminCard and StudentAcademicCard.
+     */
+    public void toggleState() {
+        state = !state;
+        personListView.refresh(); //To show immediate result of toggle
     }
 
     /**
@@ -41,7 +51,11 @@ public class StudentListPanel extends UiPart<Region> {
                 setGraphic(null);
                 setText(null);
             } else {
-                setGraphic(new StudentCard(student, getIndex() + 1).getRoot());
+                if (state) {
+                    setGraphic(new StudentAdminCard(student, getIndex() + 1).getRoot());
+                } else {
+                    setGraphic(new StudentAcademicCard(student, getIndex() + 1).getRoot());
+                }
             }
         }
     }

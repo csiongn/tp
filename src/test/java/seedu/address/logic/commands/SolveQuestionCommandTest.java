@@ -62,7 +62,7 @@ public class SolveQuestionCommandTest {
 
     @Test
     void execute_validIndexUnfilteredList_success() {
-        Student asker = model.getFilteredStudentList().get(INDEX_FIRST_PERSON.getZeroBased());
+        Student asker = model.getSortedStudentList().get(INDEX_FIRST_PERSON.getZeroBased());
         Student clone = new StudentBuilder(asker).withQuestions(TEST_QUESTIONS).build();
         model.setStudent(asker, clone);
 
@@ -71,6 +71,7 @@ public class SolveQuestionCommandTest {
         Question solved = expectedStudent.getQuestions().get(question.getZeroBased());
         String expectedMessage = String.format(MESSAGE_SUCCESS,
                 expectedStudent.getName(), solved);
+
 
         SolveQuestionCommand solveCommand = new SolveQuestionCommand(INDEX_FIRST_PERSON, question, DEFAULT_SOLUTION);
         ModelManager expectedModel = new ModelManager(model.getReeve(), new UserPrefs(), model.getNotebook());
@@ -81,7 +82,7 @@ public class SolveQuestionCommandTest {
 
     @Test
     void execute_invalidStudentIndexUnfilteredList_throwsCommandException() {
-        Index outOfBounds = Index.fromOneBased(model.getFilteredStudentList().size() + 1);
+        Index outOfBounds = Index.fromOneBased(model.getSortedStudentList().size() + 1);
         Index question = Index.fromOneBased(1);
         SolveQuestionCommand solveCommand = new SolveQuestionCommand(outOfBounds, question, DEFAULT_SOLUTION);
         assertCommandFailure(solveCommand, model, MESSAGE_INVALID_STUDENT_DISPLAYED_INDEX);
@@ -91,7 +92,7 @@ public class SolveQuestionCommandTest {
     public void execute_validIndexFilteredList_success() {
         showPersonAtIndex(model, INDEX_SECOND_PERSON);
 
-        Student asker = model.getFilteredStudentList().get(INDEX_FIRST_PERSON.getZeroBased());
+        Student asker = model.getSortedStudentList().get(INDEX_FIRST_PERSON.getZeroBased());
         Student clone = new StudentBuilder(asker).withQuestions(TEST_QUESTIONS).build();
         model.setStudent(asker, clone);
 
@@ -120,7 +121,7 @@ public class SolveQuestionCommandTest {
 
     @Test
     public void execute_invalidQuestionIndex_throwsCommandException() {
-        Student asker = model.getFilteredStudentList().get(INDEX_FIRST_PERSON.getZeroBased());
+        Student asker = model.getSortedStudentList().get(INDEX_FIRST_PERSON.getZeroBased());
         Student clone = new StudentBuilder(asker).withQuestions(TEST_QUESTIONS).build();
         model.setStudent(asker, clone);
 
@@ -131,7 +132,7 @@ public class SolveQuestionCommandTest {
 
     @Test
     public void execute_alreadySolvedQuestion_throwsCommandException() {
-        Student asker = model.getFilteredStudentList().get(INDEX_FIRST_PERSON.getZeroBased());
+        Student asker = model.getSortedStudentList().get(INDEX_FIRST_PERSON.getZeroBased());
         Student clone = new StudentBuilder(asker).withSolved(DEFAULT_SOLUTION, TEST_QUESTIONS).build();
         model.setStudent(asker, clone);
 
@@ -178,6 +179,6 @@ public class SolveQuestionCommandTest {
             questions.add(toAdd);
         }
         return new Student(toCopy.getName(), toCopy.getPhone(), toCopy.getSchool(),
-                toCopy.getYear(), toCopy.getAdmin(), questions);
+                toCopy.getYear(), toCopy.getAdmin(), questions, toCopy.getAcademic());
     }
 }

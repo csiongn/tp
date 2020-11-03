@@ -7,7 +7,7 @@ Reeve - Developer Guide
 ## Introduction
 Welcome to Reeve!
 
-Reeve is an integrated platform specifically catered to Primary, Secondary and Tertiary education private tutors to better manage their students' individual needs. 
+Reeve is an integrated platform specifically catered to Primary, Secondary and Tertiary education private tutors to better manage their students' individual needs.
 It contains  students' particulars, administrative and academic details.
 
 Reeve is optimized for users that are very comfortable with typing as it works on a Command Line Interface (CLI).
@@ -15,7 +15,7 @@ Reeve is optimized for users that are very comfortable with typing as it works o
 Students' details are displayed in a neat and organized manner through the use of a Graphical User Interface (GUI).
 
 If you are looking for an application to better allow you to track your students' administrative and academic details so that you can better meet their needs? Look no further!
-  
+
 ## 1. About
 
 ## 2. Understanding the Guide
@@ -160,11 +160,11 @@ The student administrative details feature keeps track of essential administrati
 
 The following describes the flow of how `AddCommand` is performed.
 
-1. Upon successfully parsing the user input, the `AddCommand#execute(Model model)` is called which checks whether 
+1. Upon successfully parsing the user input, the `AddCommand#execute(Model model)` is called which checks whether
 the added student already exists in the `UniqueStudentList`.
-2. A unique student is defined by `Name`, `Phone`, `School` and `Year`. If a duplicate student is defined, 
+2. A unique student is defined by `Name`, `Phone`, `School` and `Year`. If a duplicate student is defined,
 a `CommandException` is thrown and the student will not be added.
-3. If the added student is not a duplicate, then the `Model#addStudent(Student student)` is called to add the student. 
+3. If the added student is not a duplicate, then the `Model#addStudent(Student student)` is called to add the student.
 A new `CommandResult` is returned with a success message and the added student.
 4. The student is be added into `UniqueStudentList` and a success message is shown in the result display.
 
@@ -377,7 +377,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* * *`  | expert user               | view my students' preferred tutoring location         | figure out how to get that location                                                 |
 | `* * *`  | expert user               | edit my students' personal details                    | get rid of outdated data                                                            |
 | `* * *`  | expert user               | view my student's details                             | refer to them when needed                                                           |
-| `* * *`  | expert user               | add additional details to each student                | add other miscellaneous details which can allow me to better cater to student needs |
+| `* * *`  | expert user               | add details to each student                | add other miscellaneous details which can allow me to better cater to student needs |
 | `* * *`  | long-time user            | delete students' data                                 | remove irrelevant data of students who are no longer my tutees                      |
 | `* * *`  | expert user               | find a student's record                               | retrieve students' data with ease                                                   |
 

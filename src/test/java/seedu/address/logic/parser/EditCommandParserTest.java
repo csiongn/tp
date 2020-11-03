@@ -29,11 +29,8 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_SCHOOL_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_SCHOOL_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_SCHOOL_LEVEL_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_SCHOOL_LEVEL_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_SCHOOL_TYPE_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_SCHOOL_TYPE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_YEAR_AMY;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_YEAR_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.YEAR_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.YEAR_DESC_BOB;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
@@ -135,7 +132,7 @@ public class EditCommandParserTest {
 
         EditStudentDescriptor editStudentDescriptor = new EditStudentDescriptorBuilder().withName(VALID_NAME_AMY)
                 .withPhone(VALID_PHONE_BOB).withSchool(VALID_SCHOOL_AMY)
-                .withYear(VALID_SCHOOL_TYPE_AMY, VALID_SCHOOL_LEVEL_AMY).build();
+                .withYear(VALID_YEAR_AMY).build();
         EditAdminDescriptor editAdminDescriptor = new EditAdminDescriptorBuilder().withFee(VALID_FEE_BOB)
                 .withPaymentDate(VALID_PAYMENT_DATE_AMY).withTime(VALID_CLASS_TIME_BOB)
                 .withVenue(VALID_CLASS_VENUE_AMY).build();
@@ -186,7 +183,7 @@ public class EditCommandParserTest {
         // year
         userInput = targetIndex.getOneBased() + YEAR_DESC_AMY;
         editStudentDescriptor = new EditStudentDescriptorBuilder()
-                .withYear(VALID_SCHOOL_TYPE_AMY, VALID_SCHOOL_LEVEL_AMY).build();
+                .withYear(VALID_YEAR_AMY).build();
         expectedCommand = new EditCommand(targetIndex, editStudentDescriptor, editAdminDescriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
 
@@ -227,7 +224,7 @@ public class EditCommandParserTest {
                 + CLASS_TIME_DESC_BOB + CLASS_VENUE_DESC_BOB + PHONE_DESC_BOB + SCHOOL_DESC_BOB + YEAR_DESC_BOB;
 
         EditStudentDescriptor editStudentDescriptor = new EditStudentDescriptorBuilder().withPhone(VALID_PHONE_BOB)
-                .withSchool(VALID_SCHOOL_BOB).withYear(VALID_SCHOOL_TYPE_BOB, VALID_SCHOOL_LEVEL_BOB).build();
+                .withSchool(VALID_SCHOOL_BOB).withYear(VALID_YEAR_BOB).build();
         EditAdminDescriptor editAdminDescriptor = new EditAdminDescriptorBuilder().withTime(VALID_CLASS_TIME_BOB)
                 .withVenue(VALID_CLASS_VENUE_BOB).build();
         EditCommand expectedCommand = new EditCommand(targetIndex, editStudentDescriptor, editAdminDescriptor);
@@ -250,7 +247,7 @@ public class EditCommandParserTest {
         userInput = targetIndex.getOneBased() + YEAR_DESC_BOB + INVALID_PHONE_DESC + SCHOOL_DESC_BOB
                 + PHONE_DESC_BOB;
         editStudentDescriptor = new EditStudentDescriptorBuilder().withPhone(VALID_PHONE_BOB)
-                .withYear(VALID_SCHOOL_TYPE_BOB, VALID_SCHOOL_LEVEL_BOB).withSchool(VALID_SCHOOL_BOB).build();
+                .withYear(VALID_YEAR_BOB).withSchool(VALID_SCHOOL_BOB).build();
         expectedCommand = new EditCommand(targetIndex, editStudentDescriptor, editAdminDescriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
     }

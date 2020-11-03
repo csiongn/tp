@@ -14,9 +14,9 @@ import seedu.address.model.Reeve;
 import seedu.address.model.student.Student;
 
 /**
- * An Immutable AddressBook that is serializable to JSON format.
+ * An Immutable Reeve that is serializable to JSON format.
  */
-@JsonRootName(value = "addressbook")
+@JsonRootName(value = "reeve")
 class JsonSerializableReeve {
 
     public static final String MESSAGE_DUPLICATE_STUDENT = "Student list contains duplicate student(s).";
@@ -24,7 +24,7 @@ class JsonSerializableReeve {
     private final List<JsonAdaptedStudent> students = new ArrayList<>();
 
     /**
-     * Constructs a {@code JsonSerializableAddressBook} with the given students.
+     * Constructs a {@code JsonSerializableReeve} with the given students.
      */
     @JsonCreator
     public JsonSerializableReeve(@JsonProperty("students") List<JsonAdaptedStudent> students) {
@@ -32,16 +32,16 @@ class JsonSerializableReeve {
     }
 
     /**
-     * Converts a given {@code ReadOnlyAddressBook} into this class for Jackson use.
+     * Converts a given {@code ReadOnlyReeve} into this class for Jackson use.
      *
-     * @param source future changes to this will not affect the created {@code JsonSerializableAddressBook}.
+     * @param source future changes to this will not affect the created {@code JsonSerializableReeve}.
      */
     public JsonSerializableReeve(ReadOnlyReeve source) {
         students.addAll(source.getStudentList().stream().map(JsonAdaptedStudent::new).collect(Collectors.toList()));
     }
 
     /**
-     * Converts this address book into the model's {@code AddressBook} object.
+     * Converts this address book into the model's {@code Reeve} object.
      *
      * @throws IllegalValueException if there were any data constraints violated.
      */

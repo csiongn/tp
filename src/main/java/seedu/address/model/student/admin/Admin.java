@@ -18,13 +18,13 @@ public class Admin {
     private final ClassTime classTime;
     private final Fee fee;
     private final PaymentDate paymentDate;
-    private final List<AdditionalDetail> details = new ArrayList<>();
+    private final List<Detail> details = new ArrayList<>();
 
     /**
      * venue, time, fee, date and details are not null.
      */
     public Admin(ClassVenue venue, ClassTime time, Fee fee, PaymentDate date,
-                 List<AdditionalDetail> details) {
+                 List<Detail> details) {
         requireAllNonNull(venue, time, fee, date, details);
         this.classVenue = venue;
         this.classTime = time;
@@ -49,17 +49,17 @@ public class Admin {
         return paymentDate;
     }
 
-    public List<AdditionalDetail> getDetails() {
-        return details;
+    public List<Detail> getDetails() {
+        return new ArrayList<>(details);
     }
 
     /**
-     * Get additional details of student formatted for GUI use.
-     * @return formatted additional details.
+     * Get details of student formatted for GUI use.
+     * @return formatted details.
      */
     public String getFormattedDetails() {
         String result = "";
-        for (AdditionalDetail detail: details) {
+        for (Detail detail: details) {
             result = result + "- " + detail.toString() + "\n";
         }
         return result;

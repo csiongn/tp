@@ -47,7 +47,7 @@ public class Notebook implements ReadOnlyNotebook {
     }
 
     /**
-     * Resets the existing data of this {@code Reeve} with {@code newData}.
+     * Resets the existing data of this {@code Notebook} with {@code newData}.
      */
     public void resetData(ReadOnlyNotebook newData) {
         requireNonNull(newData);

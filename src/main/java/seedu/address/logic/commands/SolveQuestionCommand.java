@@ -24,6 +24,7 @@ public class SolveQuestionCommand extends QuestionCommand {
     public static final String MESSAGE_SUCCESS = "%1$s's question resolved: %2$s";
     public static final String MESSAGE_SOLVED_QUESTION = "This question was already solved";
     public static final String MESSAGE_BAD_QUESTION_INDEX = "There is no question at this index";
+    public static final String COMMAND_WORD = "solve";
 
     private static Logger logger = Logger.getLogger("Solve Question Log");
 
@@ -47,7 +48,7 @@ public class SolveQuestionCommand extends QuestionCommand {
         requireNonNull(model);
         logger.log(Level.INFO, "Beginning command execution");
 
-        List<Student> lastShownList = model.getFilteredStudentList();
+        List<Student> lastShownList = model.getSortedStudentList();
         if (studentIndex.getZeroBased() >= lastShownList.size()) {
             logger.log(Level.WARNING, "Handling non-existent student error");
             throw new CommandException(Messages.MESSAGE_INVALID_STUDENT_DISPLAYED_INDEX);

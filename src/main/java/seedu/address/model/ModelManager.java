@@ -4,6 +4,8 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.nio.file.Path;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
@@ -11,11 +13,16 @@ import java.util.logging.Logger;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
+import jfxtras.icalendarfx.components.VEvent;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.notes.Notebook;
 import seedu.address.model.notes.ReadOnlyNotebook;
 import seedu.address.model.notes.note.Note;
+import seedu.address.model.schedule.ReadOnlyEvent;
+import seedu.address.model.schedule.SchedulePrefs;
+import seedu.address.model.schedule.ScheduleViewMode;
+import seedu.address.model.schedule.Scheduler;
 import seedu.address.model.student.NameComparator;
 import seedu.address.model.student.Student;
 
@@ -28,6 +35,8 @@ public class ModelManager implements Model {
     private final Reeve reeve;
     private final UserPrefs userPrefs;
     private final FilteredList<Student> filteredStudents;
+    private final Scheduler scheduler;
+    private final SchedulePrefs schedulePrefs;
     private final SortedList<Student> sortedStudents;
     private final Notebook notebook;
 
@@ -38,12 +47,14 @@ public class ModelManager implements Model {
         super();
         requireAllNonNull(addressBook, userPrefs);
 
-        logger.fine("Initializing with address book: " + addressBook + " , user prefs " + userPrefs + "and "
+        logger.fine("Initializing with reeve: " + addressBook + " , user prefs " + userPrefs + "and "
             + "notebook: " + notebook);
 
         this.reeve = new Reeve(addressBook);
         this.userPrefs = new UserPrefs(userPrefs);
         filteredStudents = new FilteredList<>(this.reeve.getStudentList());
+        this.scheduler = new Scheduler();
+        this.schedulePrefs = new SchedulePrefs(ScheduleViewMode.WEEKLY, LocalDate.now());
         sortedStudents = new SortedList<>(this.filteredStudents, new NameComparator());
         this.notebook = new Notebook(notebook);
     }
@@ -119,7 +130,6 @@ public class ModelManager implements Model {
     @Override
     public void setStudent(Student target, Student editedStudent) {
         requireAllNonNull(target, editedStudent);
-
         reeve.setStudent(target, editedStudent);
     }
 
@@ -138,6 +148,38 @@ public class ModelManager implements Model {
     public void updateFilteredStudentList(Predicate<Student> predicate) {
         requireNonNull(predicate);
         filteredStudents.setPredicate(predicate);
+    }
+
+    //=========== schedule ================================================================================
+
+    @Override
+    public ReadOnlyEvent getSchedule() {
+        return scheduler;
+    }
+
+    @Override
+    public LocalDateTime getScheduleViewDateTime() {
+        return schedulePrefs.getViewDateTime();
+    }
+
+    @Override
+    public void setScheduleViewDate(LocalDate viewDate) {
+        schedulePrefs.setViewDateTime(viewDate);
+    }
+
+    @Override
+    public ScheduleViewMode getScheduleViewMode() {
+        return schedulePrefs.getViewMode();
+    }
+
+    @Override
+    public void setScheduleViewMode(ScheduleViewMode viewMode) {
+        schedulePrefs.setViewMode(viewMode);
+    }
+
+    @Override
+    public ObservableList<VEvent> getVEventList() {
+        return scheduler.getVEvents();
     }
 
     //=========== Sorted Student List Accessors ===============================================================
@@ -212,4 +254,20 @@ public class ModelManager implements Model {
                 && notebook.equals(other.notebook);
     }
 
+    @Override
+    public void updateClassTimesToEvent() {
+        scheduler.mapClassTimesToLessonEvent(reeve.getStudentList());
+    }
+
+    @Override
+    public ObservableList<VEvent> getLessonEventsList() {
+        updateClassTimesToEvent();
+        return scheduler.getVEvents();
+    }
+
+    @Override
+    public boolean isClashingClassTime(Student toCheck) {
+        return scheduler.isClashingClassTime(toCheck, reeve.getStudentList());
+    }
 }
+

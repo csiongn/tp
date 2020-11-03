@@ -12,14 +12,15 @@ import seedu.address.model.notes.note.Note;
 public class AddNoteCommand extends NoteCommand {
     public static final String COMMAND_WORD = "add";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a note to the notebook.\n\n"
+    public static final String MESSAGE_USAGE = NoteCommand.COMMAND_WORD + " " + COMMAND_WORD
+            + ": Adds a note to the notebook.\n\n"
             + "Parameters: "
             + PREFIX_TITLE + "TITLE "
             + PREFIX_DESCRIPTION + "DESCRIPTION ";
 
 
     public static final String MESSAGE_SUCCESS = "New note added:\n%1$s";
-    public static final String MESSAGE_DUPLICATE_STUDENT = "This note already exists in the notebook";
+    public static final String MESSAGE_DUPLICATE_NOTE = "This note already exists in the notebook";
 
     private final Note toAdd;
 
@@ -36,7 +37,7 @@ public class AddNoteCommand extends NoteCommand {
         requireNonNull(model);
 
         if (model.hasNote(toAdd)) {
-            throw new CommandException(MESSAGE_DUPLICATE_STUDENT);
+            throw new CommandException(MESSAGE_DUPLICATE_NOTE);
         }
 
         model.addNote(toAdd);

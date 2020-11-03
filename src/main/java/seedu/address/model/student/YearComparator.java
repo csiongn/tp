@@ -6,6 +6,10 @@ import java.util.Comparator;
 
 public class YearComparator implements Comparator<Student> {
 
+    public static final String COMPARISON_MEANS = "year";
+    public static final String USAGE = COMPARISON_MEANS + ": Sorts students by the year they are in school, "
+            + "with Primary 1 coming first and JC 2 coming last.";
+
     @Override
     public int compare(Student o1, Student o2) {
         requireNonNull(o1);

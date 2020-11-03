@@ -11,6 +11,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_TIME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_VENUE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_YEAR;
 
+import seedu.address.commons.core.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.student.Student;
@@ -30,8 +31,8 @@ public class AddCommand extends Command {
             + PREFIX_YEAR + "YEAR "
             + PREFIX_VENUE + "CLASS_VENUE "
             + PREFIX_TIME + "CLASS_TIME "
-            + PREFIX_FEE + "FEE "
-            + PREFIX_PAYMENT + "LAST_PAYMENT_DATE "
+            + "[" + PREFIX_FEE + "FEE] "
+            + "[" + PREFIX_PAYMENT + "LAST_PAYMENT_DATE] "
             + "[" + PREFIX_DETAILS + "ADDITIONAL_DETAILS]\n\n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_NAME + "John Doe "
@@ -42,7 +43,7 @@ public class AddCommand extends Command {
             + PREFIX_TIME + "1 1200-1400 "
             + PREFIX_FEE + "30 "
             + PREFIX_PAYMENT + "24/09/2020 "
-            + PREFIX_DETAILS + "Additional details here ";
+            + PREFIX_DETAILS + "Details here ";
 
     public static final String MESSAGE_SUCCESS = "New student added:\n%1$s";
     public static final String MESSAGE_DUPLICATE_STUDENT = "This student already exists in Reeve";
@@ -63,6 +64,10 @@ public class AddCommand extends Command {
 
         if (model.hasStudent(toAdd)) {
             throw new CommandException(MESSAGE_DUPLICATE_STUDENT);
+        }
+
+        if (model.isClashingClassTime(toAdd)) {
+            throw new CommandException(Messages.MESSAGE_CLASHING_LESSON);
         }
 
         model.addStudent(toAdd);

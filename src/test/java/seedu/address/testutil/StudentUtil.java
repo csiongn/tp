@@ -16,8 +16,7 @@ import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.model.student.Student;
-import seedu.address.model.student.admin.AdditionalDetail;
-import seedu.address.model.student.admin.Admin;
+import seedu.address.model.student.admin.Detail;
 
 
 /**
@@ -41,23 +40,23 @@ public class StudentUtil {
                 .append(PREFIX_PHONE + student.getPhone().value + " ")
                 .append(PREFIX_SCHOOL + student.getSchool().school + " ")
                 .append(PREFIX_YEAR + String.valueOf(student.getYear()) + " ")
-                .append(getAdminDetails(student.getAdmin()));
+                .append(getAdminDetails(student));
         return sb.toString();
     }
 
-    private static String getAdminDetails(Admin admin) {
+    private static String getAdminDetails(Student student) {
         StringBuilder sb = new StringBuilder();
-        String venue = PREFIX_VENUE + admin.getClassVenue().venue + " ";
-        String time = PREFIX_TIME + String.valueOf(admin.getClassTime().dayOfWeek.getValue())
-                + " " + admin.getClassTime().startTime.toString().replace(":", "")
-                + "-" + admin.getClassTime().endTime.toString().replace(":", "") + " ";
-        String fee = PREFIX_FEE + String.valueOf(admin.getFee().amount) + " ";
-        String date = PREFIX_PAYMENT + admin.getPaymentDate()
+        String venue = PREFIX_VENUE + student.getClassVenue().venue + " ";
+        String time = PREFIX_TIME + String.valueOf(student.getClassTime().dayOfWeek.getValue())
+                + " " + student.getClassTime().startTime.toString().replace(":", "")
+                + "-" + student.getClassTime().endTime.toString().replace(":", "") + " ";
+        String fee = PREFIX_FEE + String.valueOf(student.getFee().amount) + " ";
+        String date = PREFIX_PAYMENT + student.getPaymentDate()
                 .lastPaid
                 .format(DateTimeFormatter.ofPattern("d/M/yy")) + " ";
         sb.append(venue).append(time).append(fee).append(date);
 
-        for (AdditionalDetail detail : admin.getDetails()) {
+        for (Detail detail : student.getDetails()) {
             sb.append(PREFIX_DETAILS + detail.detail + " ");
         }
         return sb.toString();

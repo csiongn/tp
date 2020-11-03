@@ -27,10 +27,10 @@ public class EditAdminDescriptorBuilder {
      */
     public EditAdminDescriptorBuilder(Student student) {
         descriptor = new EditAdminDescriptor();
-        descriptor.setTime(student.getAdmin().getClassTime());
-        descriptor.setVenue(student.getAdmin().getClassVenue());
-        descriptor.setFee(student.getAdmin().getFee());
-        descriptor.setPaymentDate(student.getAdmin().getPaymentDate());
+        descriptor.setTime(student.getClassTime());
+        descriptor.setVenue(student.getClassVenue());
+        descriptor.setFee(student.getFee());
+        descriptor.setPaymentDate(student.getPaymentDate());
     }
 
     /**

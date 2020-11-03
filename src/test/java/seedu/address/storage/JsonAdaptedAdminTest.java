@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static seedu.address.storage.JsonAdaptedStudent.MISSING_FIELD_MESSAGE_FORMAT;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalStudents.BOB;
-import static seedu.address.testutil.TypicalStudents.BOB_ADMIN;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,9 +12,9 @@ import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.exceptions.IllegalValueException;
-import seedu.address.model.student.admin.AdditionalDetail;
 import seedu.address.model.student.admin.ClassTime;
 import seedu.address.model.student.admin.ClassVenue;
+import seedu.address.model.student.admin.Detail;
 import seedu.address.model.student.admin.Fee;
 import seedu.address.model.student.admin.PaymentDate;
 
@@ -26,18 +25,18 @@ public class JsonAdaptedAdminTest {
     private static final String INVALID_PAYMENT_DATE = "0000";
     private static final String INVALID_ADDITIONAL_DETAIL = "!@#";
 
-    private static final String VALID_CLASS_VENUE = BOB_ADMIN.getClassVenue().toString();
-    private static final String VALID_CLASS_TIME = BOB_ADMIN.getClassTime().convertClassTimeToUserInputString();
-    private static final String VALID_FEE = BOB_ADMIN.getFee().convertFeeToUserInputString();
-    private static final String VALID_PAYMENT_DATE = BOB_ADMIN.getPaymentDate().convertPaymentDateToUserInputString();
-    private static final List<JsonAdaptedAdditionalDetail> VALID_ADDITIONAL_DETAILS =
-            BOB_ADMIN.getDetails().stream().map(JsonAdaptedAdditionalDetail::new).collect(Collectors.toList());
+    private static final String VALID_CLASS_VENUE = BOB.getClassVenue().toString();
+    private static final String VALID_CLASS_TIME = BOB.getClassTime().convertClassTimeToUserInputString();
+    private static final String VALID_FEE = BOB.getFee().convertFeeToUserInputString();
+    private static final String VALID_PAYMENT_DATE = BOB.getPaymentDate().convertPaymentDateToUserInputString();
+    private static final List<JsonAdaptedDetail> VALID_ADDITIONAL_DETAILS =
+            BOB.getDetails().stream().map(JsonAdaptedDetail::new).collect(Collectors.toList());
 
 
 
     @Test
     public void toModelType_validAdmin_returnsAdmin() throws Exception {
-        JsonAdaptedAdmin admin = new JsonAdaptedAdmin(BOB.getAdmin());
+        JsonAdaptedAdmin admin = new JsonAdaptedAdmin(BOB);
         assertEquals(BOB.getAdmin(), admin.toModelType());
     }
 
@@ -108,12 +107,12 @@ public class JsonAdaptedAdminTest {
     @Test
     public void toModelType_invalidAdditionalDetails_throwsIllegalValueException() {
 
-        List<JsonAdaptedAdditionalDetail> invalidDetails = new ArrayList<>(VALID_ADDITIONAL_DETAILS);
-        invalidDetails.add(new JsonAdaptedAdditionalDetail(INVALID_ADDITIONAL_DETAIL));
+        List<JsonAdaptedDetail> invalidDetails = new ArrayList<>(VALID_ADDITIONAL_DETAILS);
+        invalidDetails.add(new JsonAdaptedDetail(INVALID_ADDITIONAL_DETAIL));
 
         JsonAdaptedAdmin admin = new JsonAdaptedAdmin(INVALID_CLASS_VENUE, VALID_CLASS_TIME, VALID_FEE,
                 VALID_PAYMENT_DATE, invalidDetails);
-        String expectedMessage = AdditionalDetail.MESSAGE_CONSTRAINTS;
+        String expectedMessage = Detail.MESSAGE_CONSTRAINTS;
         assertThrows(IllegalValueException.class, expectedMessage, admin::toModelType);
     }
 }

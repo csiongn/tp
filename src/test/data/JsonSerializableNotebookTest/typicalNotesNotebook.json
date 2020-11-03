@@ -1,0 +1,13 @@
+{
+  "_comment": "Notebook save file which contains the same Note values as in TypicalNotes#getTypicalNotebook()",
+  "notes" : [ {
+    "title" : "W10 blues",
+    "description" : "why must i do cs2103"
+  }, {
+    "title" : "Graduation :(",
+    "description" : "write cards for people"
+  }, {
+    "title" : "JY!!!",
+    "description" : "Cafeine is good..."
+  } ]
+}

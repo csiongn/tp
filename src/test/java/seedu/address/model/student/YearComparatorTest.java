@@ -12,15 +12,15 @@ public class YearComparatorTest {
     private YearComparator cmp = new YearComparator();
 
     private Student priThreeStudent = new StudentBuilder().withName("Eve").withSchool("Bishan Primary School")
-            .withYear(SchoolType.PRIMARY, 3).build();
+            .withYear("Primary 3").build();
     private Student secOneStudent = new StudentBuilder().withName("Alice").withSchool("SST")
-            .withYear(SchoolType.SECONDARY, 1).build();
+            .withYear("Secondary 1").build();
     private Student secOneStudent2 = new StudentBuilder().withName("Dominic").withSchool("SOTA")
-            .withYear(SchoolType.SECONDARY, 1).build();
+            .withYear("Secondary 1").build();
     private Student secThreeStudent = new StudentBuilder().withName("Pikachu").withSchool("Trainers School")
-            .withYear(SchoolType.SECONDARY, 3).build();
+            .withYear("Secondary 3").build();
     private Student jcOneStudent = new StudentBuilder().withName("Bob").withSchool("Innova JC")
-            .withYear(SchoolType.JC, 1).build();
+            .withYear("JC 1").build();
 
     @Test
     public void test_largerThan_moreThanZero() {

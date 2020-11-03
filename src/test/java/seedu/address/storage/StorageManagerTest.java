@@ -3,6 +3,7 @@ package seedu.address.storage;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static seedu.address.testutil.TypicalStudents.getTypicalAddressBook;
+import static seedu.address.testutil.notes.TypicalNotes.getTypicalNotebook;
 
 import java.nio.file.Path;
 
@@ -14,6 +15,8 @@ import seedu.address.commons.core.GuiSettings;
 import seedu.address.model.ReadOnlyReeve;
 import seedu.address.model.Reeve;
 import seedu.address.model.UserPrefs;
+import seedu.address.model.notes.Notebook;
+import seedu.address.model.notes.ReadOnlyNotebook;
 import seedu.address.storage.notes.JsonNotebookStorage;
 
 public class StorageManagerTest {
@@ -64,8 +67,25 @@ public class StorageManagerTest {
     }
 
     @Test
+    public void notebookReadSave() throws Exception {
+        /*
+         * Note: This is an integration test that verifies the StorageManager is properly wired to the
+         * {@link JsonNotebookStorage} class.
+         */
+        Notebook original = getTypicalNotebook();
+        storageManager.saveNotebook(original);
+        ReadOnlyNotebook retrieved = storageManager.readNotebook().get();
+        assertEquals(original, new Notebook(retrieved));
+    }
+
+    @Test
     public void getAddressBookFilePath() {
         assertNotNull(storageManager.getAddressBookFilePath());
+    }
+
+    @Test
+    public void getNotebookFilePath() {
+        assertNotNull(storageManager.getNotebookFilePath());
     }
 
 }

@@ -18,7 +18,7 @@ public class OverdueFeePredicate implements Predicate<Student> {
 
     @Override
     public boolean test(Student student) {
-        return currentDate.minusMonths(1)
-                .compareTo(student.getAdmin().getPaymentDate().lastPaid) > 0;
+        return currentDate.minusMonths(1).compareTo(student.getPaymentDate().lastPaid) > 0
+                && student.getAdmin().getFee().amount > 0;
     }
 }

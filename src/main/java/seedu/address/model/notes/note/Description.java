@@ -10,13 +10,13 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
 public class Description {
 
     public static final String MESSAGE_CONSTRAINTS =
-            "Description must be less than 80 characters";
+            "Description must not be more than 80 characters";
 
     /*
      * The first character of the description must not be a whitespace,
      * otherwise " " (a blank string) becomes a valid input.
      */
-    public static final String VALIDATION_REGEX = "^(\\S.{1,79})";
+    public static final String VALIDATION_REGEX = "^(\\S.{0,79})";
 
     public final String description;
 

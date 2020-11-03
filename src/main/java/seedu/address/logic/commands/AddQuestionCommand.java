@@ -22,6 +22,7 @@ public class AddQuestionCommand extends QuestionCommand {
 
     public static final String MESSAGE_SUCCESS = "New question added to student %1$s: %2$s";
     public static final String MESSAGE_DUPLICATE_QUESTION = "This student has already asked this question";
+    public static final String COMMAND_WORD = "add";
 
     private static Logger logger = Logger.getLogger("Add Question Log");
 
@@ -45,7 +46,7 @@ public class AddQuestionCommand extends QuestionCommand {
         requireNonNull(model);
         logger.log(Level.INFO, "Beginning command execution");
 
-        List<Student> lastShownList = model.getFilteredStudentList();
+        List<Student> lastShownList = model.getSortedStudentList();
         if (index.getZeroBased() >= lastShownList.size()) {
             logger.log(Level.WARNING, "Handling non-existent student error");
             throw new CommandException(Messages.MESSAGE_INVALID_STUDENT_DISPLAYED_INDEX);

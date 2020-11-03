@@ -24,7 +24,8 @@ public class EditNoteCommand extends NoteCommand {
 
     public static final String COMMAND_WORD = "edit";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits the details of the note identified "
+    public static final String MESSAGE_USAGE = NoteCommand.COMMAND_WORD + " " + COMMAND_WORD
+            + ": Edits the details of the note identified "
             + "by the index number used in the displayed notebook. "
             + "Existing values will be overwritten by the input values.\n"
             + "Parameters: INDEX (must be a positive integer) "
@@ -72,8 +73,8 @@ public class EditNoteCommand extends NoteCommand {
     }
 
     /**
-     * Creates and returns a {@code Student} with the details of {@code studenttoEdit}
-     * edited with {@code editStudentDescriptor} and {@code editAdminDescriptor}.
+     * Creates and returns a {@code Note} with the details of {@code noteToEdit}
+     * edited with {@code editNoteDescriptor}.
      */
     private static Note createEditedNote(Note noteToEdit, EditNoteCommand.EditNoteDescriptor editNoteDescriptor) {
         assert noteToEdit != null;

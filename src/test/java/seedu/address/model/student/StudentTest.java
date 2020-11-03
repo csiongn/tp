@@ -7,8 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_SCHOOL_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_SCHOOL_LEVEL_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_SCHOOL_TYPE_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_YEAR_BOB;
 import static seedu.address.testutil.StudentBuilder.DEFAULT_QUESTION_MATH;
 import static seedu.address.testutil.StudentBuilder.DEFAULT_SOLUTION;
 import static seedu.address.testutil.TypicalStudents.ALICE;
@@ -32,7 +31,7 @@ public class StudentTest {
 
         // different phone and school and year -> returns false
         Student editedAlice = new StudentBuilder(ALICE).withPhone(VALID_PHONE_BOB).withSchool(VALID_SCHOOL_BOB)
-                .withYear(VALID_SCHOOL_TYPE_BOB, VALID_SCHOOL_LEVEL_BOB).build();
+                .withYear(VALID_YEAR_BOB).build();
         assertFalse(ALICE.isSameStudent(editedAlice));
 
         // different name -> returns false
@@ -41,12 +40,12 @@ public class StudentTest {
 
         // same name, same phone, different attributes -> returns false
         editedAlice = new StudentBuilder(ALICE).withSchool(VALID_SCHOOL_BOB)
-                .withYear(VALID_SCHOOL_TYPE_BOB, VALID_SCHOOL_LEVEL_BOB).build();
+                .withYear(VALID_YEAR_BOB).build();
         assertFalse(ALICE.isSameStudent(editedAlice));
 
         // same name, same school, different attributes -> returns true
         editedAlice = new StudentBuilder(ALICE).withPhone(VALID_PHONE_BOB)
-                .withYear(VALID_SCHOOL_TYPE_BOB, VALID_SCHOOL_LEVEL_BOB).build();
+                .withYear(VALID_YEAR_BOB).build();
         assertFalse(ALICE.isSameStudent(editedAlice));
 
         // same name, same year, different attributes -> returns true
@@ -55,7 +54,7 @@ public class StudentTest {
         assertFalse(ALICE.isSameStudent(editedAlice));
 
         // same name, same phone, same school, different year -> returns true
-        editedAlice = new StudentBuilder(ALICE).withYear(VALID_SCHOOL_TYPE_BOB, VALID_SCHOOL_LEVEL_BOB).build();
+        editedAlice = new StudentBuilder(ALICE).withYear(VALID_YEAR_BOB).build();
         assertFalse(ALICE.isSameStudent(editedAlice));
     }
 
@@ -90,7 +89,7 @@ public class StudentTest {
         assertFalse(ALICE.equals(editedAlice));
 
         // different year -> returns false
-        editedAlice = new StudentBuilder(ALICE).withYear(VALID_SCHOOL_TYPE_BOB, VALID_SCHOOL_LEVEL_BOB).build();
+        editedAlice = new StudentBuilder(ALICE).withYear(VALID_YEAR_BOB).build();
         assertFalse(ALICE.equals(editedAlice));
 
     }

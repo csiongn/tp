@@ -18,12 +18,12 @@ public class DeleteNoteCommand extends NoteCommand {
 
     public static final String COMMAND_WORD = "delete";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD
+    public static final String MESSAGE_USAGE = NoteCommand.COMMAND_WORD + " " + COMMAND_WORD
             + ": Deletes the note identified by the index number used in the displayed notebook.\n"
             + "Parameters: INDEX (must be a positive integer)\n"
             + "Example: " + COMMAND_WORD + " 1";
 
-    public static final String MESSAGE_DELETE_STUDENT_SUCCESS = "Deleted Note: %1$s";
+    public static final String MESSAGE_DELETE_NOTE_SUCCESS = "Deleted Note: %1$s";
 
     private final Index targetIndex;
 
@@ -37,12 +37,12 @@ public class DeleteNoteCommand extends NoteCommand {
         List<Note> lastShownList = model.getNotebook().getNotesList();
 
         if (targetIndex.getZeroBased() >= lastShownList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_STUDENT_DISPLAYED_INDEX);
+            throw new CommandException(Messages.MESSAGE_INVALID_NOTE_DISPLAYED_INDEX);
         }
 
         Note noteToDelete = lastShownList.get(targetIndex.getZeroBased());
         model.deleteNote(noteToDelete);
-        return new CommandResult(String.format(MESSAGE_DELETE_STUDENT_SUCCESS, noteToDelete));
+        return new CommandResult(String.format(MESSAGE_DELETE_NOTE_SUCCESS, noteToDelete));
     }
 
     @Override

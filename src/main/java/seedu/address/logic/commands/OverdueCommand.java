@@ -18,6 +18,6 @@ public class OverdueCommand extends Command {
         requireNonNull(model);
         model.updateFilteredStudentList(new OverdueFeePredicate());
         return new CommandResult(String.format(MESSAGE_STUDENTS_LISTED_OVERVIEW,
-                model.getFilteredStudentList().size()));
+                model.getSortedStudentList().size()));
     }
 }

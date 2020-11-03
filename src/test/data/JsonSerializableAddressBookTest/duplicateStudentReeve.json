@@ -2,14 +2,14 @@
   "students": [ {
     "name": "Alice Pauline",
     "phone": "94351253",
-    "school": "NUS High School",
-    "year": "JC 2",
+    "school": "Anderson Secondary",
+    "year": "Secondary 3",
     "admin" : {
       "classVenue": "123, Jurong West Ave 6, #08-111",
-      "classTime": "1 1500-1700",
+      "classTime": "5 1500-1700",
       "fee": "21.00",
       "paymentDate": "21/05/2020",
-      "additionalDetails": ["Clever"]
+      "additionalDetails": ["owesMoney", "friends"]
     },
     "questions": [ {
       "status" : false,
@@ -19,18 +19,34 @@
       "status" : false,
       "question" : "How do you inverse a matrix?",
       "solution" : ""
-    } ]
+    }],
+    "academic" : {
+      "attendanceList" : [ {
+        "date" : "14/04/1998",
+        "attendanceStatus" : "present",
+        "feedback" : "sleepy during lesson"
+      }],
+      "exams" : [ {
+        "examName" : "End of Year Examination 2020",
+        "examDate" : "7/11/2020",
+        "score" : "50/100"
+      }, {
+        "examName" : "Mid Year Examination 2020",
+        "examDate" : "25/7/2020",
+        "score" : "20/30"
+      }]
+    }
   }, {
     "name": "Alice Pauline",
     "phone": "94351253",
-    "school": "NUS High School",
-    "year": "JC 2",
+    "school": "Anderson Secondary",
+    "year": "Secondary 3",
     "admin" : {
       "classVenue": "123, Jurong West Ave 6, #08-111",
-      "classTime": "1 1500-1700",
+      "classTime": "5 1500-1700",
       "fee": "21.00",
       "paymentDate": "21/05/2020",
-      "additionalDetails": ["Clever"]
+      "additionalDetails": ["owesMoney", "friends"]
     },
     "questions": [ {
       "status" : false,
@@ -40,6 +56,22 @@
       "status" : false,
       "question" : "How do you inverse a matrix?",
       "solution" : ""
-    } ]
+    }],
+    "academic" : {
+      "attendanceList" : [ {
+        "date" : "14/04/1998",
+        "attendanceStatus" : "present",
+        "feedback" : "sleepy during lesson"
+      }],
+      "exams" : [ {
+        "examName" : "End of Year Examination 2020",
+        "examDate" : "7/11/2020",
+        "score" : "50/100"
+      }, {
+        "examName" : "Mid Year Examination 2020",
+        "examDate" : "25/7/2020",
+        "score" : "20/30"
+      }]
+    }
   } ]
 }

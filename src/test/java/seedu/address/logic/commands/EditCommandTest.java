@@ -49,13 +49,14 @@ public class EditCommandTest {
         Model expectedModel = new ModelManager(new Reeve(model.getReeve()), new UserPrefs(), getTypicalNotebook());
         expectedModel.setStudent(model.getFilteredStudentList().get(INDEX_FIRST_PERSON.getZeroBased()), editedStudent);
 
+
         assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
     }
 
     @Test
     public void execute_someFieldsSpecifiedUnfilteredList_success() {
-        Index indexLastPerson = Index.fromOneBased(model.getFilteredStudentList().size());
-        Student lastStudent = model.getFilteredStudentList().get(indexLastPerson.getZeroBased());
+        Index indexLastPerson = Index.fromOneBased(model.getSortedStudentList().size());
+        Student lastStudent = model.getSortedStudentList().get(indexLastPerson.getZeroBased());
 
         StudentBuilder personInList = new StudentBuilder(lastStudent);
         Student editedStudent = personInList.withName(VALID_NAME_BOB).withPhone(VALID_PHONE_BOB).withFee(VALID_FEE_BOB)
@@ -79,7 +80,7 @@ public class EditCommandTest {
     public void execute_noFieldSpecifiedUnfilteredList_success() {
         EditCommand editCommand = new EditCommand(INDEX_FIRST_PERSON, new EditStudentDescriptor(),
                 new EditAdminDescriptor());
-        Student editedStudent = model.getFilteredStudentList().get(INDEX_FIRST_PERSON.getZeroBased());
+        Student editedStudent = model.getSortedStudentList().get(INDEX_FIRST_PERSON.getZeroBased());
 
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, editedStudent);
 
@@ -92,8 +93,8 @@ public class EditCommandTest {
     public void execute_filteredList_success() {
         showPersonAtIndex(model, INDEX_FIRST_PERSON);
 
-        Student studentInFilteredList = model.getFilteredStudentList().get(INDEX_FIRST_PERSON.getZeroBased());
-        Student editedStudent = new StudentBuilder(studentInFilteredList).withName(VALID_NAME_BOB)
+        Student studentInSortedList = model.getSortedStudentList().get(INDEX_FIRST_PERSON.getZeroBased());
+        Student editedStudent = new StudentBuilder(studentInSortedList).withName(VALID_NAME_BOB)
                 .withFee(VALID_FEE_BOB).build();
         EditCommand editCommand = new EditCommand(INDEX_FIRST_PERSON,
                 new EditStudentDescriptorBuilder().withName(VALID_NAME_BOB).build(),
@@ -104,12 +105,13 @@ public class EditCommandTest {
         Model expectedModel = new ModelManager(new Reeve(model.getReeve()), new UserPrefs(), getTypicalNotebook());
         expectedModel.setStudent(model.getFilteredStudentList().get(0), editedStudent);
 
+
         assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
     }
 
     @Test
     public void execute_duplicatePersonUnfilteredList_failure() {
-        Student firstStudent = model.getFilteredStudentList().get(INDEX_FIRST_PERSON.getZeroBased());
+        Student firstStudent = model.getSortedStudentList().get(INDEX_FIRST_PERSON.getZeroBased());
         EditStudentDescriptor editStudentDescriptor = new EditStudentDescriptorBuilder(firstStudent).build();
         EditAdminDescriptor editAdminDescriptor = new EditAdminDescriptorBuilder(firstStudent).build();
         EditCommand editCommand = new EditCommand(INDEX_SECOND_PERSON, editStudentDescriptor, editAdminDescriptor);
@@ -132,7 +134,7 @@ public class EditCommandTest {
 
     @Test
     public void execute_invalidPersonIndexUnfilteredList_failure() {
-        Index outOfBoundIndex = Index.fromOneBased(model.getFilteredStudentList().size() + 1);
+        Index outOfBoundIndex = Index.fromOneBased(model.getSortedStudentList().size() + 1);
         EditStudentDescriptor editStudentDescriptor = new EditStudentDescriptorBuilder()
                 .withName(VALID_NAME_BOB).build();
         EditAdminDescriptor editAdminDescriptor = new EditAdminDescriptorBuilder().build();

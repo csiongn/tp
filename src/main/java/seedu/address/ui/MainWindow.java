@@ -8,6 +8,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import seedu.address.commons.core.GuiSettings;
@@ -16,6 +17,8 @@ import seedu.address.logic.Logic;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.schedule.ScheduleViewMode;
+import seedu.address.model.student.Student;
 
 /**
  * The Main Window. Provides the basic application layout containing
@@ -33,7 +36,9 @@ public class MainWindow extends UiPart<Stage> {
     // Independent Ui parts residing in this Ui container
     private StudentListPanel studentListPanel;
     private ResultDisplay resultDisplay;
+    private Notebook notebook;
     private HelpWindow helpWindow;
+    private SchedulePanel schedulePanel;
 
     @FXML
     private StackPane commandBoxPlaceholder;
@@ -45,10 +50,13 @@ public class MainWindow extends UiPart<Stage> {
     private StackPane personListPanelPlaceholder;
 
     @FXML
+    private StackPane notebookPlaceholder;
+
+    @FXML
     private StackPane resultDisplayPlaceholder;
 
     @FXML
-    private StackPane statusbarPlaceholder;
+    private GridPane displayGridPane;
 
     /**
      * Creates a {@code MainWindow} with the given {@code Stage} and {@code Logic}.
@@ -67,6 +75,7 @@ public class MainWindow extends UiPart<Stage> {
         setAccelerators();
 
         helpWindow = new HelpWindow();
+
     }
 
     public Stage getPrimaryStage() {
@@ -111,14 +120,17 @@ public class MainWindow extends UiPart<Stage> {
      * Fills up all the placeholders of this window.
      */
     void fillInnerParts() {
+        schedulePanel = new SchedulePanel(logic.getVEventList());
+        personListPanelPlaceholder.getChildren().add(schedulePanel.getRoot());
+
         studentListPanel = new StudentListPanel(logic.getSortedStudentList());
         personListPanelPlaceholder.getChildren().add(studentListPanel.getRoot());
 
         resultDisplay = new ResultDisplay();
         resultDisplayPlaceholder.getChildren().add(resultDisplay.getRoot());
 
-        StatusBarFooter statusBarFooter = new StatusBarFooter(logic.getAddressBookFilePath());
-        statusbarPlaceholder.getChildren().add(statusBarFooter.getRoot());
+        notebook = new Notebook(logic.getNotebook().getNotesList());
+        notebookPlaceholder.getChildren().add(notebook.getRoot());
 
         CommandBox commandBox = new CommandBox(this::executeCommand);
         commandBoxPlaceholder.getChildren().add(commandBox.getRoot());
@@ -164,8 +176,51 @@ public class MainWindow extends UiPart<Stage> {
         primaryStage.hide();
     }
 
+    /**
+     * Opens the schedule with updated events.
+     */
+    @FXML
+    private void handleCalendar() {
+        schedulePanel.updateSchedule(logic.getVEventList());
+        if (logic.getScheduleViewMode().equals(ScheduleViewMode.WEEKLY)) {
+            schedulePanel.setWeekView();
+        }
+        if (logic.getScheduleViewMode().equals(ScheduleViewMode.DAILY)) {
+            schedulePanel.setDayView();
+        }
+        schedulePanel.setDisplayedDateTime(logic.getScheduleViewDateTime());
+        schedulePanel.getRoot().toFront();
+    }
+
+    /**
+     * Closes the schedule.
+     */
+    public void closeSchedule() {
+        schedulePanel.getRoot().toBack();
+    }
+
+    /**
+     * Toggle the display of student cards in the student list panel between admin and academic.
+     */
+    public void handleAcademicPanel() {
+        studentListPanel.toggleState();
+    }
+
+    /**
+     * Opens the exam stats window or focuses on it if it's already opened.
+     */
+    @FXML
+    public void handleExamStats(Student student) {
+        ExamStatsWindow examStatsWindow = new ExamStatsWindow(student);
+        examStatsWindow.show();
+    }
+
     public StudentListPanel getStudentListPanel() {
         return studentListPanel;
+    }
+
+    public Notebook getNotebookPanel() {
+        return notebook;
     }
 
     /**
@@ -185,6 +240,24 @@ public class MainWindow extends UiPart<Stage> {
 
             if (commandResult.isExit()) {
                 handleExit();
+            }
+
+
+            // this is to open schedule when schedule command is called
+            if (commandResult.isSchedule()) {
+                handleCalendar();
+                return commandResult;
+            }
+
+            // closes schedule if other command is called
+            closeSchedule();
+
+            if (commandResult.isToggleStudentCard()) {
+                handleAcademicPanel();
+            }
+
+            if (commandResult.isExamStats()) {
+                handleExamStats(commandResult.getSelectedStudent());
             }
 
             return commandResult;

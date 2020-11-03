@@ -8,10 +8,11 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import seedu.address.commons.exceptions.IllegalValueException;
-import seedu.address.model.student.admin.AdditionalDetail;
+import seedu.address.model.student.Student;
 import seedu.address.model.student.admin.Admin;
 import seedu.address.model.student.admin.ClassTime;
 import seedu.address.model.student.admin.ClassVenue;
+import seedu.address.model.student.admin.Detail;
 import seedu.address.model.student.admin.Fee;
 import seedu.address.model.student.admin.PaymentDate;
 
@@ -27,7 +28,7 @@ public class JsonAdaptedAdmin {
     private final String classTime;
     private final String fee;
     private final String paymentDate;
-    private final List<JsonAdaptedAdditionalDetail> additionalDetails = new ArrayList<>();
+    private final List<JsonAdaptedDetail> additionalDetails = new ArrayList<>();
 
     /**
      * Constructs a {@code JsonAdaptedAdmin} with admin details
@@ -37,7 +38,7 @@ public class JsonAdaptedAdmin {
                             @JsonProperty("classTime") String classTime,
                             @JsonProperty("fee") String fee,
                             @JsonProperty("paymentDate") String paymentDate,
-                            @JsonProperty("additionalDetails") List<JsonAdaptedAdditionalDetail> additionalDetails) {
+                            @JsonProperty("additionalDetails") List<JsonAdaptedDetail> additionalDetails) {
         this.classVenue = classVenue;
         this.classTime = classTime;
         this.fee = fee;
@@ -50,13 +51,13 @@ public class JsonAdaptedAdmin {
     /**
      * Converts a given {@code Admin} into this class for Jackson use.
      */
-    public JsonAdaptedAdmin(Admin source) {
-        this.classVenue = source.getClassVenue().toString();
-        this.classTime = source.getClassTime().convertClassTimeToUserInputString();
-        this.fee = source.getFee().convertFeeToUserInputString();
-        this.paymentDate = source.getPaymentDate().convertPaymentDateToUserInputString();
-        additionalDetails.addAll(source.getDetails().stream()
-                .map(JsonAdaptedAdditionalDetail::new)
+    public JsonAdaptedAdmin(Student student) {
+        this.classVenue = student.getClassVenue().toString();
+        this.classTime = student.getClassTime().convertClassTimeToUserInputString();
+        this.fee = student.getFee().convertFeeToUserInputString();
+        this.paymentDate = student.getPaymentDate().convertPaymentDateToUserInputString();
+        additionalDetails.addAll(student.getDetails().stream()
+                .map(JsonAdaptedDetail::new)
                 .collect(Collectors.toList()));
     }
 
@@ -67,8 +68,8 @@ public class JsonAdaptedAdmin {
      */
     public Admin toModelType() throws IllegalValueException {
 
-        final List<AdditionalDetail> details = new ArrayList<>();
-        for (JsonAdaptedAdditionalDetail additionalDetail : additionalDetails) {
+        final List<Detail> details = new ArrayList<>();
+        for (JsonAdaptedDetail additionalDetail : additionalDetails) {
             details.add(additionalDetail.toModelType());
         }
 
@@ -108,7 +109,7 @@ public class JsonAdaptedAdmin {
         }
         final PaymentDate modelPaymentDate = new PaymentDate(paymentDate);
 
-        final List<AdditionalDetail> modelAdditionalDetails = new ArrayList<>(details);
-        return new Admin(modelClassVenue, modelClassTime , modelFee, modelPaymentDate, modelAdditionalDetails);
+        final List<Detail> modelDetails = new ArrayList<>(details);
+        return new Admin(modelClassVenue, modelClassTime , modelFee, modelPaymentDate, modelDetails);
     }
 }

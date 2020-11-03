@@ -71,14 +71,14 @@ public class StorageManager implements Storage {
     }
 
     @Override
-    public void saveAddressBook(ReadOnlyReeve addressBook) throws IOException {
-        saveAddressBook(addressBook, reeveStorage.getAddressBookFilePath());
+    public void saveAddressBook(ReadOnlyReeve reeve) throws IOException {
+        saveAddressBook(reeve, reeveStorage.getAddressBookFilePath());
     }
 
     @Override
-    public void saveAddressBook(ReadOnlyReeve addressBook, Path filePath) throws IOException {
+    public void saveAddressBook(ReadOnlyReeve reeve, Path filePath) throws IOException {
         logger.fine("Attempting to write to data file: " + filePath);
-        reeveStorage.saveAddressBook(addressBook, filePath);
+        reeveStorage.saveAddressBook(reeve, filePath);
     }
 
     // ================ Notebook methods ==============================

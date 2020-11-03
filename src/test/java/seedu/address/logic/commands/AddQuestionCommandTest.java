@@ -47,7 +47,7 @@ public class AddQuestionCommandTest {
 
     @Test
     public void execute_validIndexUnfilteredList_success() {
-        Student asker = model.getFilteredStudentList().get(INDEX_FIRST_PERSON.getZeroBased());
+        Student asker = model.getSortedStudentList().get(INDEX_FIRST_PERSON.getZeroBased());
         Student clone = new StudentBuilder(asker).withQuestions().build();
         UnsolvedQuestion question = new UnsolvedQuestion(TEST_QUESTION);
         AddQuestionCommand addQuestionCommand = new AddQuestionCommand(INDEX_FIRST_PERSON, question);
@@ -65,7 +65,7 @@ public class AddQuestionCommandTest {
 
     @Test
     public void execute_invalidIndexUnfilteredList_throwsCommandException() {
-        Index outOfBounds = Index.fromOneBased(model.getFilteredStudentList().size() + 1);
+        Index outOfBounds = Index.fromOneBased(model.getSortedStudentList().size() + 1);
         UnsolvedQuestion question = new UnsolvedQuestion(TEST_QUESTION);
         AddQuestionCommand invalidCommand = new AddQuestionCommand(outOfBounds, question);
 
@@ -75,7 +75,7 @@ public class AddQuestionCommandTest {
     @Test
     public void execute_unsolvedQuestionAlreadyExists_throwsCommandException() {
         Student asker = new StudentBuilder(ALICE).withQuestions(TEST_QUESTION).build();
-        model.setStudent(model.getFilteredStudentList().get(INDEX_FIRST_PERSON.getZeroBased()), asker);
+        model.setStudent(model.getSortedStudentList().get(INDEX_FIRST_PERSON.getZeroBased()), asker);
 
         AddQuestionCommand invalidCommand = new AddQuestionCommand(INDEX_FIRST_PERSON,
                 new UnsolvedQuestion(TEST_QUESTION));
@@ -86,7 +86,7 @@ public class AddQuestionCommandTest {
     @Test
     public void execute_solvedQuestionAlreadyExists_throwsCommandException() {
         Student asker = new StudentBuilder(ALICE).withSolved(DEFAULT_SOLUTION, TEST_QUESTION).build();
-        model.setStudent(model.getFilteredStudentList().get(INDEX_FIRST_PERSON.getZeroBased()), asker);
+        model.setStudent(model.getSortedStudentList().get(INDEX_FIRST_PERSON.getZeroBased()), asker);
 
         AddQuestionCommand invalidCommand = new AddQuestionCommand(INDEX_FIRST_PERSON,
                 new UnsolvedQuestion(TEST_QUESTION));
@@ -98,7 +98,7 @@ public class AddQuestionCommandTest {
     public void execute_validIndexFilteredList_success() {
         showPersonAtIndex(model, INDEX_SECOND_PERSON);
 
-        Student asker = model.getFilteredStudentList().get(INDEX_FIRST_PERSON.getZeroBased());
+        Student asker = model.getSortedStudentList().get(INDEX_FIRST_PERSON.getZeroBased());
         UnsolvedQuestion question = new UnsolvedQuestion(TEST_QUESTION);
         Student clone = new StudentBuilder(asker).withQuestions().build();
         model.setStudent(asker, clone);

@@ -14,6 +14,8 @@ public class Fee {
 
     public static final String VALIDATION_REGEX = "[0-9]+((\\.[0-9]{1,2})?)";
 
+    public static final String FREE_OF_CHARGE = "0";
+
     public final double amount;
 
     /**

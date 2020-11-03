@@ -45,14 +45,14 @@ public class JsonReeveStorage implements ReeveStorage {
     public Optional<ReadOnlyReeve> readAddressBook(Path filePath) throws DataConversionException {
         requireNonNull(filePath);
 
-        Optional<JsonSerializableReeve> jsonAddressBook = JsonUtil.readJsonFile(
+        Optional<JsonSerializableReeve> jsonReeve = JsonUtil.readJsonFile(
                 filePath, JsonSerializableReeve.class);
-        if (!jsonAddressBook.isPresent()) {
+        if (!jsonReeve.isPresent()) {
             return Optional.empty();
         }
 
         try {
-            return Optional.of(jsonAddressBook.get().toModelType());
+            return Optional.of(jsonReeve.get().toModelType());
         } catch (IllegalValueException ive) {
             logger.info("Illegal values found in " + filePath + ": " + ive.getMessage());
             throw new DataConversionException(ive);

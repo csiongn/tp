@@ -11,9 +11,9 @@ import seedu.address.testutil.StudentBuilder;
 
 public class YearMatchPredicateTest {
 
-    private Year secondaryOne = new Year(SchoolType.SECONDARY, 1);
-    private Year secondaryOneDuplicate = new Year(SchoolType.SECONDARY, 1);
-    private Year secondaryThree = new Year(SchoolType.SECONDARY, 3);
+    private Year secondaryOne = new Year("Sec 1");
+    private Year secondaryOneDuplicate = new Year("Sec 1");
+    private Year secondaryThree = new Year("Sec 3");
 
     private YearMatchPredicate yearMatchPredicateSecondaryOne = new YearMatchPredicate(secondaryOne);
     private YearMatchPredicate yearMatchPredicateSecondaryThree = new YearMatchPredicate(secondaryThree);
@@ -22,9 +22,9 @@ public class YearMatchPredicateTest {
             new YearMatchPredicate(secondaryOneDuplicate);
 
     private Student yearOneStudent = new StudentBuilder().withName("Alice").withSchool("Changi Junior College")
-            .withYear(SchoolType.SECONDARY, 1).build();
+            .withYear("Sec 1").build();
     private Student yearThreeStudent = new StudentBuilder().withName("Pikachu").withSchool("Trainers School")
-            .withYear(SchoolType.SECONDARY, 3).build();
+            .withYear("Sec 3").build();
 
     @Test
     public void equals() {
@@ -53,7 +53,7 @@ public class YearMatchPredicateTest {
 
         // User guide test cases
         assertTrue(yearMatchPredicateSecondaryThree.test(new StudentBuilder()
-                .withYear(SchoolType.SECONDARY, 3).build()));
+                .withYear("Sec 3").build()));
 
     }
 
@@ -63,6 +63,6 @@ public class YearMatchPredicateTest {
 
         // User guide test cases
         assertFalse(yearMatchPredicateSecondaryThree.test(new StudentBuilder()
-                .withYear(SchoolType.SECONDARY, 4).build()));
+                .withYear("Sec 4").build()));
     }
 }

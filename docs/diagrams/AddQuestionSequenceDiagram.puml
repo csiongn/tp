@@ -14,10 +14,10 @@ participant "q:UnsolvedQuestion" as Question MODEL_COLOR
 participant "student:Student" as Student MODEL_COLOR
 end box
 
-[-> LogicManager : execute("question 1 a/How do birds fly?")
+[-> LogicManager : execute("question add 1 t/something")
 activate LogicManager
 
-LogicManager -> ReeveParser : parseCommand("question 1 a/How do birds fly?")
+LogicManager -> ReeveParser : parseCommand("question add 1 t/something")
 activate ReeveParser
 
 create QuestionCommandParser
@@ -27,11 +27,11 @@ activate QuestionCommandParser
 QuestionCommandParser --> ReeveParser
 deactivate QuestionCommandParser
 
-ReeveParser -> QuestionCommandParser : parse("1 a/How do birds fly?")
+ReeveParser -> QuestionCommandParser : parse("add 1 t/something")
 activate QuestionCommandParser
 
 create Question
-QuestionCommandParser -> Question : UnsolvedQuestion("How do birds fly")
+QuestionCommandParser -> Question : UnsolvedQuestion("something")
 activate Question
 
 Question --> QuestionCommandParser : q
@@ -56,7 +56,7 @@ deactivate ReeveParser
 LogicManager -> AddQuestionCommand : execute()
 activate AddQuestionCommand
 
-AddQuestionCommand -> Model : getPerson(1)
+AddQuestionCommand -> Model : getStudent(1)
 activate Model
 
 Model --> AddQuestionCommand : student
@@ -68,7 +68,7 @@ activate Student
 Student --> AddQuestionCommand : copy
 deactivate Student
 
-AddQuestionCommand -> Model : setPerson(student, copy)
+AddQuestionCommand -> Model : setStudent(student, copy)
 activate Model
 
 Student -[hidden]-> Model

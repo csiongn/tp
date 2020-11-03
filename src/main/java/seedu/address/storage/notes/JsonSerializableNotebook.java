@@ -27,7 +27,7 @@ public class JsonSerializableNotebook {
      * Constructs a {@code JsonSerializableNotebook} with the given students.
      */
     @JsonCreator
-    public JsonSerializableNotebook(@JsonProperty("students") List<JsonAdaptedNote> notes) {
+    public JsonSerializableNotebook(@JsonProperty("notes") List<JsonAdaptedNote> notes) {
         this.notes.addAll(notes);
     }
 

@@ -4,21 +4,29 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_ADD_QUESTION;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_INDEX;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_TEXT;
 import static seedu.address.testutil.Assert.assertThrows;
+import static seedu.address.testutil.StudentBuilder.DEFAULT_QUESTION_MATH;
+import static seedu.address.testutil.StudentBuilder.DEFAULT_SOLUTION;
+import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 
-import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.AddCommand;
+import seedu.address.logic.commands.AddExamCommand;
 import seedu.address.logic.commands.AddQuestionCommand;
-import seedu.address.logic.commands.AdditionalDetailCommand;
+import seedu.address.logic.commands.AttendanceCommand;
 import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.DeleteCommand;
+import seedu.address.logic.commands.DeleteExamCommand;
+import seedu.address.logic.commands.DeleteQuestionCommand;
+import seedu.address.logic.commands.DetailCommand;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.ExitCommand;
 import seedu.address.logic.commands.FindCommand;
@@ -26,9 +34,14 @@ import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.OverdueCommand;
 import seedu.address.logic.commands.QuestionCommand;
-import seedu.address.logic.commands.ScheduleCommand;
+import seedu.address.logic.commands.SolveQuestionCommand;
 import seedu.address.logic.commands.SortCommand;
+import seedu.address.logic.commands.notes.AddNoteCommand;
+import seedu.address.logic.commands.notes.DeleteNoteCommand;
+import seedu.address.logic.commands.notes.EditNoteCommand;
+import seedu.address.logic.commands.notes.NoteCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.notes.note.Note;
 import seedu.address.model.student.NameContainsKeywordsPredicate;
 import seedu.address.model.student.Student;
 import seedu.address.model.student.question.UnsolvedQuestion;
@@ -37,6 +50,9 @@ import seedu.address.testutil.EditStudentDescriptorBuilder;
 import seedu.address.testutil.FindStudentDescriptorBuilder;
 import seedu.address.testutil.StudentBuilder;
 import seedu.address.testutil.StudentUtil;
+import seedu.address.testutil.notes.EditNoteDescriptorBuilder;
+import seedu.address.testutil.notes.NoteBuilder;
+import seedu.address.testutil.notes.NoteUtil;
 
 public class ReeveParserTest {
 
@@ -44,7 +60,7 @@ public class ReeveParserTest {
 
     @Test
     public void parseCommand_add() throws Exception {
-        Student student = new StudentBuilder().withQuestions().build();
+        Student student = new StudentBuilder().withQuestions().withDetails().withExams().withAttendances().build();
         AddCommand command = (AddCommand) parser.parseCommand(StudentUtil.getAddCommand(student));
         assertEquals(new AddCommand(student), command);
     }
@@ -91,20 +107,29 @@ public class ReeveParserTest {
     }
 
     @Test
-    public void parseCommand_schedule() throws Exception {
-        LocalDate date = LocalDate.of(2020, 9, 27);
-        ScheduleCommand command = (ScheduleCommand) parser.parseCommand(
-                ScheduleCommand.COMMAND_WORD + " " + "27/09/2020");
-        assertEquals(new ScheduleCommand(date), command);
+    public void parseCommand_question() throws Exception {
+        String addCommandDesc = QuestionCommand.COMMAND_WORD + " " + AddQuestionCommand.COMMAND_WORD + " ";
+        String questionDesc = " " + PREFIX_TEXT + DEFAULT_QUESTION_MATH;
+        UnsolvedQuestion question = new UnsolvedQuestion(DEFAULT_QUESTION_MATH);
+        QuestionCommand command = (QuestionCommand) parser.parseCommand(addCommandDesc + "1" + questionDesc);
+        assertEquals(new AddQuestionCommand(INDEX_FIRST_PERSON, question), command);
+
+        String solveCommandDesc = QuestionCommand.COMMAND_WORD + " " + SolveQuestionCommand.COMMAND_WORD + " ";
+        questionDesc = " " + PREFIX_INDEX + "1" + " " + PREFIX_TEXT + DEFAULT_SOLUTION;
+        command = (QuestionCommand) parser.parseCommand(solveCommandDesc + "1" + questionDesc);
+        assertEquals(new SolveQuestionCommand(INDEX_FIRST_PERSON, Index.fromOneBased(1), DEFAULT_SOLUTION), command);
+
+        String delCommandDesc = QuestionCommand.COMMAND_WORD + " " + DeleteQuestionCommand.COMMAND_WORD + " ";
+        questionDesc = " " + PREFIX_INDEX + "1";
+        command = (QuestionCommand) parser.parseCommand(delCommandDesc + "1" + questionDesc);
+        assertEquals(new DeleteQuestionCommand(INDEX_FIRST_PERSON, Index.fromOneBased(1)), command);
     }
 
     @Test
-    public void parseCommand_question() throws Exception {
-        String testQuestion = "How do birds fly?";
-        UnsolvedQuestion question = new UnsolvedQuestion(testQuestion);
-        QuestionCommand command = (QuestionCommand) parser.parseCommand(QuestionCommand.COMMAND_WORD + " "
-                + INDEX_FIRST_PERSON.getOneBased() + " " + PREFIX_ADD_QUESTION + testQuestion);
-        assertEquals(new AddQuestionCommand(INDEX_FIRST_PERSON, question), command);
+    public void parseCommand_exam() throws Exception {
+        assertTrue(parser.parseCommand("exam add 1 n/Mid Year 2020 d/23/7/2020 s/50/100") instanceof AddExamCommand);
+        assertTrue(parser.parseCommand("exam delete 1 i/1") instanceof DeleteExamCommand);
+
     }
 
     @Test
@@ -126,8 +151,8 @@ public class ReeveParserTest {
     }
 
     @Test
-    public void parseCommand_additionalDetail() throws Exception {
-        assertTrue(parser.parseCommand("detail add 2 d/ smart") instanceof AdditionalDetailCommand);
+    public void parseCommand_detail() throws Exception {
+        assertTrue(parser.parseCommand("detail add 2 t/ smart") instanceof DetailCommand);
     }
 
     @Test
@@ -136,6 +161,38 @@ public class ReeveParserTest {
         assertTrue(parser.parseCommand(OverdueCommand.COMMAND_WORD + " 3") instanceof OverdueCommand);
     }
 
+    @Test
+    public void parseCommand_note() throws Exception {
+        // add notes command
+        assertTrue(parser.parseCommand(NoteCommand.COMMAND_WORD + " " + AddNoteCommand.COMMAND_WORD
+                + " " + "t/hi d/hehe") instanceof NoteCommand);
+
+        // edit notes command
+        Note note = new NoteBuilder().build();
+        EditNoteCommand.EditNoteDescriptor editNoteDescriptor =
+                new EditNoteDescriptorBuilder(note).build();
+        EditNoteCommand command = (EditNoteCommand) parser.parseCommand(
+                NoteCommand.COMMAND_WORD + " " + EditNoteCommand.COMMAND_WORD + " "
+                + INDEX_FIRST.getOneBased() + " "
+                + NoteUtil.getEditNoteDescriptorDetails(editNoteDescriptor));
+        assertEquals(new EditNoteCommand(INDEX_FIRST, editNoteDescriptor), command);
+
+        // delete notes command
+        DeleteNoteCommand deleteNoteCommand = (DeleteNoteCommand) parser.parseCommand(
+                NoteCommand.COMMAND_WORD + " " + DeleteNoteCommand.COMMAND_WORD
+                        + " " + INDEX_FIRST.getOneBased());
+        assertEquals(new DeleteNoteCommand(INDEX_FIRST), deleteNoteCommand);
+    }
+
+
+
+    @Test
+    public void parseCommand_attendance() throws Exception {
+        assertTrue(parser.parseCommand("attendance add 1 d/19/02/2020 a/present f/attentive")
+                instanceof AttendanceCommand);
+        assertTrue(parser.parseCommand("attendance delete 3 d/25/12/2020")
+                instanceof AttendanceCommand);
+    }
     @Test
     public void parseCommand_unrecognisedInput_throwsParseException() {
         assertThrows(ParseException.class, String.format(MESSAGE_INVALID_COMMAND_FORMAT, HelpCommand.MESSAGE_USAGE), ()

@@ -23,11 +23,6 @@ public enum SchoolType {
         }
     };
 
-    public static final String SCHOOL_TYPE_CONSTRANTS = "The type"
-            + "of school can only be one of \"secondary\", \"Secondary\", \"sec\", \"Sec\", \"s\", \"S\""
-            + "\"primary\", \"Primary\", \"pri\", \"Pri\", \"p\", \"P\", "
-            + "\"jc\", \"Jc\", \"JC\", \"j\", \"J\"";
-
     public static final Map<String, SchoolType> LOOKUP_TABLE = Map.ofEntries(
             Map.entry("pri", PRIMARY),
             Map.entry("primary", PRIMARY),

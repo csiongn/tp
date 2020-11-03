@@ -7,11 +7,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import seedu.address.logic.commands.AddCommand;
-import seedu.address.logic.commands.AdditionalDetailCommand;
+import seedu.address.logic.commands.AttendanceCommand;
 import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.DeleteCommand;
+import seedu.address.logic.commands.DetailCommand;
 import seedu.address.logic.commands.EditCommand;
+import seedu.address.logic.commands.ExamCommand;
 import seedu.address.logic.commands.ExitCommand;
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.HelpCommand;
@@ -20,6 +22,7 @@ import seedu.address.logic.commands.OverdueCommand;
 import seedu.address.logic.commands.QuestionCommand;
 import seedu.address.logic.commands.ScheduleCommand;
 import seedu.address.logic.commands.SortCommand;
+import seedu.address.logic.commands.ToggleStudentCardCommand;
 import seedu.address.logic.commands.notes.NoteCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.logic.parser.notes.NotebookParser;
@@ -32,7 +35,7 @@ public class ReeveParser {
     /**
      * Used for initial separation of command word and args.
      */
-    private static final Pattern BASIC_COMMAND_FORMAT = Pattern.compile("(?<commandWord>\\S+)(?<arguments>.*)");
+    public static final Pattern BASIC_COMMAND_FORMAT = Pattern.compile("(?<commandWord>\\S+)(?<arguments>.*)");
 
     /**
      * Parses user input into command for execution.
@@ -88,8 +91,17 @@ public class ReeveParser {
         case SortCommand.COMMAND_WORD:
             return new SortCommandParser().parse(arguments);
 
-        case AdditionalDetailCommand.COMMAND_WORD:
-            return new AdditionalDetailCommandParser().parseAdditionalDetailCommand(arguments);
+        case DetailCommand.COMMAND_WORD:
+            return new DetailCommandParser().parse(arguments);
+
+        case ExamCommand.COMMAND_WORD:
+            return new ExamCommandParser().parse(arguments);
+
+        case AttendanceCommand.COMMAND_WORD:
+            return new AttendanceCommandParser().parse(arguments);
+
+        case ToggleStudentCardCommand.COMMAND_WORD:
+            return new ToggleStudentCardCommand();
 
         case NoteCommand.COMMAND_WORD:
             return new NotebookParser().parse(arguments);

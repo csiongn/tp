@@ -8,8 +8,15 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import seedu.address.model.student.admin.AdditionalDetail;
+import seedu.address.model.student.academic.Academic;
+import seedu.address.model.student.academic.Attendance;
+import seedu.address.model.student.academic.exam.Exam;
 import seedu.address.model.student.admin.Admin;
+import seedu.address.model.student.admin.ClassTime;
+import seedu.address.model.student.admin.ClassVenue;
+import seedu.address.model.student.admin.Detail;
+import seedu.address.model.student.admin.Fee;
+import seedu.address.model.student.admin.PaymentDate;
 import seedu.address.model.student.question.Question;
 
 /**
@@ -24,19 +31,69 @@ public class Student {
     private final Year year;
     private final Admin admin;
     private final List<Question> questions = new ArrayList<>();
+    private final Academic academic;
 
     /**
-     *  name, phone, school, year, must be present and not null.
+     *  alternate constructor where admin and academic details need not be changed
      */
     public Student(Name name, Phone phone, School school, Year year,
-                   Admin admin, List<Question> questions) {
-        requireAllNonNull(name, phone, school, year, admin);
+                   Admin admin, List<Question> questions, Academic academic) {
+        requireAllNonNull(name, phone, school, year, admin, questions, academic);
         this.name = name;
         this.phone = phone;
         this.school = school;
         this.year = year;
         this.admin = admin;
         this.questions.addAll(questions);
+        this.academic = academic;
+    }
+
+    /**
+     * default constructor for when all fields are added
+     */
+    public Student(Name name, Phone phone, School school, Year year,
+                   ClassVenue venue, ClassTime time, Fee fee, PaymentDate date, List<Detail> details,
+                   List<Question> questions, List<Exam> exams, List<Attendance> attendances) {
+        requireAllNonNull(name, phone, school, year, venue, time, fee, date, details, questions, exams, attendances);
+        this.name = name;
+        this.phone = phone;
+        this.school = school;
+        this.year = year;
+        this.admin = new Admin(venue, time, fee, date, details);
+        this.questions.addAll(questions);
+        this.academic = new Academic(attendances, exams);
+    }
+
+    /**
+     * alternate constructor for when admin need not be changed
+     */
+    public Student(Name name, Phone phone, School school, Year year,
+                   Admin admin, List<Question> questions,
+                   List<Exam> exams, List<Attendance> attendances) {
+        requireAllNonNull(name, phone, school, year, admin, questions, exams, attendances);
+        this.name = name;
+        this.phone = phone;
+        this.school = school;
+        this.year = year;
+        this.admin = admin;
+        this.questions.addAll(questions);
+        this.academic = new Academic(attendances, exams);
+    }
+
+    /**
+     * alternate constructor for when academic need not be changed
+     */
+    public Student(Name name, Phone phone, School school, Year year,
+                   ClassVenue venue, ClassTime time, Fee fee, PaymentDate date, List<Detail> details,
+                   List<Question> questions, Academic academic) {
+        requireAllNonNull(name, phone, school, year, venue, time, fee, date, details, questions, academic);
+        this.name = name;
+        this.phone = phone;
+        this.school = school;
+        this.year = year;
+        this.admin = new Admin(venue, time, fee, date, details);
+        this.questions.addAll(questions);
+        this.academic = academic;
     }
 
     private Student(Student copy) {
@@ -47,6 +104,7 @@ public class Student {
         this.year = copy.year;;
         this.admin = copy.admin;
         this.questions.addAll(copy.questions);
+        this.academic = copy.academic;
     }
 
     public Name getName() {
@@ -65,16 +123,8 @@ public class Student {
         return year;
     }
 
-    public Admin getAdmin() {
-        return admin;
-    }
-
     public List<Question> getQuestions() {
         return List.copyOf(questions);
-    }
-
-    public List<AdditionalDetail> getDetails() {
-        return admin.getDetails();
     }
 
     /**
@@ -91,6 +141,67 @@ public class Student {
                 && otherStudent.getPhone().equals(getPhone())
                 && otherStudent.getSchool().toString().toLowerCase().equals(getSchool().toString().toLowerCase())
                 && otherStudent.getYear().equals(getYear());
+    }
+
+    /**
+     * Returns true if both student have the same identity and data fields.
+     * This defines a stronger notion of equality between two students.
+     */
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
+
+        if (!(other instanceof Student)) {
+            return false;
+        }
+
+        Student otherStudent = (Student) other;
+        return otherStudent.getName().equals(getName())
+                && otherStudent.getPhone().equals(getPhone())
+                && otherStudent.getSchool().equals(getSchool())
+                && otherStudent.getYear().equals(getYear())
+                && otherStudent.getAdmin().equals(getAdmin())
+                && otherStudent.getAcademic().equals(getAcademic())
+                && otherStudent.getQuestions().equals(getQuestions())
+                && otherStudent.getExams().equals(getExams())
+                && otherStudent.getAcademic().equals(getAcademic());
+    }
+
+    @Override
+    public int hashCode() {
+        // use this method for custom fields hashing instead of implementing your own
+        return Objects.hash(name, phone, school, year, questions, admin, academic);
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder builder = new StringBuilder();
+        builder.append("Name: ")
+                .append(getName())
+                .append("\nPhone: ")
+                .append(getPhone())
+                .append("\nSchool: ")
+                .append(getSchool())
+                .append("\nYear: ")
+                .append(getYear())
+                .append(getAdmin());
+
+        if (!questions.isEmpty()) {
+            builder.append("\nQuestions:\n");
+            String questionList = questions.stream()
+                    .map(Question::toString)
+                    .collect(Collectors.joining("\n"));
+            builder.append(questionList);
+        }
+
+        return builder.append(getAcademic()).toString();
+    }
+
+    //==============QUESTION ACCESSORS==============//
+    public Admin getAdmin() {
+        return admin;
     }
 
     public boolean containsQuestion(Question question) {
@@ -137,57 +248,60 @@ public class Student {
         return replacement;
     }
 
+    public String getFormattedQuestions() {
+        String result = "";
+        int index = 1;
+        for (Question question : questions) {
+            result = result + index + ". " + question.toString() + "\n";
+            index++;
+        }
+        return result;
+    }
+
+    //==============ADMIN ACCESSORS==============//
+    public Fee getFee() {
+        return admin.getFee();
+    }
+
+    public PaymentDate getPaymentDate() {
+        return admin.getPaymentDate();
+    }
+
+    public ClassVenue getClassVenue() {
+        return admin.getClassVenue();
+    }
+
+    public ClassTime getClassTime() {
+        return admin.getClassTime();
+    }
+
+    public List<Detail> getDetails() {
+        return admin.getDetails();
+    }
+
+    public String getFormattedDetails() {
+        return admin.getFormattedDetails();
+    }
+
+    //==============ACADEMIC ACCESSORS==============//
+    public Academic getAcademic() {
+        return academic;
+    }
+
+    public List<Attendance> getAttendance() {
+        return academic.getAttendance();
+    }
+
+    public List<Exam> getExams() {
+        return academic.getExams();
+    }
+
     /**
-     * Returns true if both student have the same identity and data fields.
-     * This defines a stronger notion of equality between two students.
+     * Get exams of student formatted for GUI use.
+     * @return formatted exams.
      */
-    @Override
-    public boolean equals(Object other) {
-        if (other == this) {
-            return true;
-        }
-
-        if (!(other instanceof Student)) {
-            return false;
-        }
-
-        Student otherStudent = (Student) other;
-        return otherStudent.getName().equals(getName())
-                && otherStudent.getPhone().equals(getPhone())
-                && otherStudent.getSchool().equals(getSchool())
-                && otherStudent.getYear().equals(getYear())
-                && otherStudent.getAdmin().equals(getAdmin())
-                && otherStudent.getQuestions().equals(getQuestions());
-    }
-
-    @Override
-    public int hashCode() {
-        // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, school, year, questions, admin);
-    }
-
-    @Override
-    public String toString() {
-        final StringBuilder builder = new StringBuilder();
-        builder.append("Name: ")
-                .append(getName())
-                .append("\nPhone: ")
-                .append(getPhone())
-                .append("\nSchool: ")
-                .append(getSchool())
-                .append("\nYear: ")
-                .append(getYear())
-                .append(getAdmin());
-
-        if (!questions.isEmpty()) {
-            builder.append("\nQuestions:\n");
-            String questionList = questions.stream()
-                    .map(Question::toString)
-                    .collect(Collectors.joining("\n"));
-            builder.append(questionList);
-        }
-
-        return builder.toString();
+    public String getFormattedExams() {
+        return academic.getFormattedExams();
     }
 
 }

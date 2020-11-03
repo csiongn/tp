@@ -17,6 +17,7 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.model.notes.Notebook;
+import seedu.address.model.schedule.Scheduler;
 import seedu.address.model.student.NameContainsKeywordsPredicate;
 import seedu.address.testutil.ReeveBuilder;
 import seedu.address.testutil.notes.NotebookBuilder;
@@ -30,6 +31,7 @@ public class ModelManagerTest {
         assertEquals(new UserPrefs(), modelManager.getUserPrefs());
         assertEquals(new GuiSettings(), modelManager.getGuiSettings());
         assertEquals(new Reeve(), new Reeve(modelManager.getReeve()));
+        assertEquals(new Scheduler(), modelManager.getSchedule());
     }
 
     @Test
@@ -93,7 +95,7 @@ public class ModelManagerTest {
 
     @Test
     public void getFilteredPersonList_modifyList_throwsUnsupportedOperationException() {
-        assertThrows(UnsupportedOperationException.class, () -> modelManager.getFilteredStudentList().remove(0));
+        assertThrows(UnsupportedOperationException.class, () -> modelManager.getSortedStudentList().remove(0));
     }
 
     @Test
@@ -126,6 +128,7 @@ public class ModelManagerTest {
 
         // different filteredList -> returns false
         String[] keywords = AMY.getName().fullName.split("\\s+");
+
         modelManager.updateFilteredStudentList(new NameContainsKeywordsPredicate(Arrays.asList(keywords)));
         assertFalse(modelManager.equals(new ModelManager(reeve, userPrefs, notebook)));
 
@@ -136,5 +139,14 @@ public class ModelManagerTest {
         UserPrefs differentUserPrefs = new UserPrefs();
         differentUserPrefs.setAddressBookFilePath(Paths.get("differentFilePath"));
         assertFalse(modelManager.equals(new ModelManager(reeve, differentUserPrefs, notebook)));
+
     }
+
+    @Test
+    public void getVEventList_modifyList_throwsUnsupportedOperationException() {
+        assertThrows(UnsupportedOperationException.class, () -> modelManager.getVEventList().remove(0));
+    }
+
+
+
 }

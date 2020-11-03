@@ -15,6 +15,18 @@
       "status" : false,
       "question" : " ",
       "solution" : ""
-    } ]
+    } ],
+    "academic": {
+      "attendanceList" : [{
+        "date" : "14/04/1998",
+        "attendanceStatus" : "attended",
+        "feedback" : "sleepy during lesson"
+      }],
+      "exams" : [ {
+        "examName" : "End of Year Examination 2020",
+        "examDate" : "7/11/2020",
+        "score" : "50/100"
+      }]
+    }
   } ]
 }
